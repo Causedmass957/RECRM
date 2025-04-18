@@ -1,16 +1,15 @@
 server:
-  port: 9015
+  port: 9088
  
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/real_estate_crmdb
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: P4ssw0rd
     driver-class-name: org.postgresql.Driver   
 
   
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true 
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
