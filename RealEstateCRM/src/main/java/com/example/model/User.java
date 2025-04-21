@@ -32,7 +32,7 @@ public class User {
 	@Column(name="role", nullable=false)
 	private String role;
 	
-	@Column(name="email", nullable=false)
+	@Column(name="email", unique=true, nullable=false)
 	private String email;
 	
 	public User() {
