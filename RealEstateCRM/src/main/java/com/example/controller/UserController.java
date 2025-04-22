@@ -61,7 +61,9 @@ public class UserController {
 	public ResponseEntity<User> checkPassword(@PathVariable(name="email") String email, @RequestBody LinkedHashMap<String, String> userMap){
 		User testUser = uServe.getUserByEmail(email);
 		Optional<User> corUser = Optional.ofNullable(testUser);
-		if(!corUser.isPresent() || corUser.get().getPassword().equals(userMap.get("password"))) 
+		System.out.println(userMap.get("email"));
+		System.out.println(corUser.get().getPassword());
+		if(!corUser.isPresent() || !corUser.get().getPassword().equals(userMap.get("password"))) 
 			return ResponseEntity.badRequest().build();
 		System.out.println("Success");
 		return ResponseEntity.status(201).body(corUser.get());
