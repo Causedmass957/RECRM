@@ -1,4 +1,11 @@
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\UserController.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\demo\RealEstateCrmApplication.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\Contact.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\Memo.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\User.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\ContactRepo.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\MemoRepo.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\UserRepo.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\ContactService.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\MemoService.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\UserService.java
