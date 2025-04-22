@@ -2,6 +2,7 @@ package com.example.service;
 
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Contact;
@@ -16,6 +17,7 @@ public class ContactService {
 		super();
 	}
 
+	@Autowired
 	public ContactService(ContactRepo cRepo) {
 		super();
 		this.cRepo = cRepo;
