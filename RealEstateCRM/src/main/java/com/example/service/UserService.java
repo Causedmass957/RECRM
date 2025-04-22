@@ -36,5 +36,9 @@ public class UserService {
 	public User getUserById(int userId) {
 		return uRepo.findById(userId);
 	}
+	
+	public User getUserByUsername(String username) {
+		return uRepo.findByUsername(username);
+	}
 
 }
