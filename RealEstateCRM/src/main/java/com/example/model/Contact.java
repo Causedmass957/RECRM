@@ -22,7 +22,7 @@ public class Contact {
 	private String contactName;
 	
 	@Column(name="email", unique=true,  nullable=false)
-	private String contactEmail;
+	private String email;
 	
 	@Column(name="dob")
 	private LocalDate dob;
@@ -30,19 +30,19 @@ public class Contact {
 	@Column(name="phone")
 	private String contactPhone;
 
-	public Contact(String contactName, String contactEmail, LocalDate dob, String contactPhone) {
+	public Contact(String contactName, String email, LocalDate dob, String contactPhone) {
 		super();
 		this.contactName = contactName;
-		this.contactEmail = contactEmail;
+		this.email = email;
 		this.dob = dob;
 		this.contactPhone = contactPhone;
 	}
 
-	public Contact(int contactId, String contactName, String contactEmail, LocalDate dob, String contactPhone) {
+	public Contact(int contactId, String contactName, String email, LocalDate dob, String contactPhone) {
 		super();
 		this.contactId = contactId;
 		this.contactName = contactName;
-		this.contactEmail = contactEmail;
+		this.email = email;
 		this.dob = dob;
 		this.contactPhone = contactPhone;
 	}
@@ -60,11 +60,11 @@ public class Contact {
 	}
 
 	public String getContactEmail() {
-		return contactEmail;
+		return email;
 	}
 
-	public void setContactEmail(String contactEmail) {
-		this.contactEmail = contactEmail;
+	public void setContactEmail(String email) {
+		this.email = email;
 	}
 
 	public LocalDate getDob() {
@@ -93,7 +93,7 @@ public class Contact {
 
 	@Override
 	public String toString() {
-		return "Contact [contactId=" + contactId + ", contactName=" + contactName + ", contactEmail=" + contactEmail
+		return "Contact [contactId=" + contactId + ", contactName=" + contactName + ", email=" + email
 				+ ", dob=" + dob + ", contactPhone=" + contactPhone + "]";
 	}
 	

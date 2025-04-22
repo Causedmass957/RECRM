@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.User;
 import com.example.service.UserService;
 
-@ComponentScan(basePackages = {
-	    "com.technicalkeeda"
-	})
+
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value="/user")
@@ -31,16 +29,16 @@ public class UserController {
 		this.uServe = uServe;
 	}
 	
-	@GetMapping(value="/init")
+	@GetMapping("/init")
 	public ResponseEntity<String> insertMockUserData() {
+		System.out.println("endpoint reached");
 		
 		User mockUser = new User("DustyDaClown", "Passw0rd", "Realtor", "arnbristerdjr@gmail.com");
 		
 		uServe.registerUser(mockUser);
 		
 		return ResponseEntity.status(201).body("Success");
-	}
-	
+	}	
 	
 
 }

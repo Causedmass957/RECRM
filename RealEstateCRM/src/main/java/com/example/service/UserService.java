@@ -11,6 +11,7 @@ import com.example.repository.UserRepo;
 @Service
 public class UserService {
 	
+	@Autowired
 	private UserRepo uRepo;
 
 	public UserService() {
