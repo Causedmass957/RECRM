@@ -57,12 +57,11 @@ public class UserController {
 		return ResponseEntity.status(201).body(uServe.getUserByEmail(user.getEmail()));
 	}
 	
-	@PostMapping(value="/login/{email}")
-	public ResponseEntity<User> checkPassword(@PathVariable(name="email") String email, @RequestBody LinkedHashMap<String, String> userMap){
-		User testUser = uServe.getUserByEmail(email);
+	@PostMapping(value="/login/{username}")
+	public ResponseEntity<User> checkPassword(@PathVariable(name="username") String username, @RequestBody LinkedHashMap<String, String> userMap){
+		User testUser = uServe.getUserByUsername(username);
 		Optional<User> corUser = Optional.ofNullable(testUser);
-		System.out.println(userMap.get("email"));
-		System.out.println(corUser.get().getPassword());
+		
 		if(!corUser.isPresent() || !corUser.get().getPassword().equals(userMap.get("password"))) 
 			return ResponseEntity.badRequest().build();
 		System.out.println("Success");
