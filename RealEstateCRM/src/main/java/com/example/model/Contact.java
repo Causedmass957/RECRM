@@ -40,6 +40,25 @@ public class Contact {
 	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.EAGER)
 	@JoinColumn(name="user_fk")
 	private User user;
+		
+	public Contact(String contactName, String email, LocalDate dob, String contactPhone, User user) {
+		super();
+		this.contactName = contactName;
+		this.email = email;
+		this.dob = dob;
+		this.contactPhone = contactPhone;
+		this.user = user;
+	}
+
+	public Contact(int contactId, String contactName, String email, LocalDate dob, String contactPhone, User user) {
+		super();
+		this.contactId = contactId;
+		this.contactName = contactName;
+		this.email = email;
+		this.dob = dob;
+		this.contactPhone = contactPhone;
+		this.user = user;
+	}
 
 	public Contact(String contactName, String email, LocalDate dob, String contactPhone) {
 		super();
