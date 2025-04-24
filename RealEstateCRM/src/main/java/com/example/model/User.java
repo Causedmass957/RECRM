@@ -2,15 +2,20 @@ package com.example.model;
 
 
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -35,9 +40,45 @@ public class User {
 	@Column(name="email", unique=true, nullable=false)
 	private String email;
 	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy= "user")
+	@Column(nullable=true)
+	private List<Contact> contactList;
+	
 	public User() {
 		
 	}
+		
+	public User(int userId, String username, String password, String role, String email) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.email = email;
+	}
+
+	public User(int userId, String username, String password, String role, String email, List<Contact> contactList) {
+		super();
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.email = email;
+		this.contactList = contactList;
+	}
+
+
+
+	public User(String username, String password, String role, String email, List<Contact> contactList) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.email = email;
+		this.contactList = contactList;
+	}
+
+
 
 	public User(String username, String password, String role, String email) {
 		super();
