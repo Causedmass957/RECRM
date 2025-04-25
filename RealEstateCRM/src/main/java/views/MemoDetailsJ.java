@@ -3,23 +3,25 @@ package views;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import java.awt.Font;
-import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JMenuBar;
+import javax.swing.JButton;
+import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
-import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
-public class MemoDetails {
+public class MemoDetailsJ extends JFrame {
 
-	private JFrame frmMemoDetails;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 	private JTextField textFieldMemoTitle;
 	private JTextField textFieldCreatedFor;
 	private JTextField textFieldCreatedBy;
@@ -32,8 +34,8 @@ public class MemoDetails {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MemoDetails window = new MemoDetails();
-					window.frmMemoDetails.setVisible(true);
+					MemoDetailsJ frame = new MemoDetailsJ();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,23 +44,15 @@ public class MemoDetails {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
-	public MemoDetails() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmMemoDetails = new JFrame();
-		frmMemoDetails.setTitle("Memo Details");
-		frmMemoDetails.setBounds(100, 100, 573, 749);
-		frmMemoDetails.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public MemoDetailsJ() {
+		setTitle("Memo Details");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 565, 693);
 		
 		JMenuBar menuBar = new JMenuBar();
-		frmMemoDetails.setJMenuBar(menuBar);
+		setJMenuBar(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
 		mnMenu.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -79,6 +73,13 @@ public class MemoDetails {
 		JMenuItem mntmLogOut = new JMenuItem("Log Out");
 		mntmLogOut.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnMenu.add(mntmLogOut);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		
+		JButton btnSaveMemo = new JButton("Save Memo");
+		btnSaveMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblMemoDetails = new JLabel("Memo Details");
 		lblMemoDetails.setHorizontalAlignment(SwingConstants.CENTER);
@@ -86,11 +87,11 @@ public class MemoDetails {
 		
 		JSeparator separator_1_1 = new JSeparator();
 		
-		JLabel lblNewLabel = new JLabel("Memo ID:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
 		JLabel lblCreatedBy = new JLabel("Created By:");
 		lblCreatedBy.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JLabel lblNewLabel = new JLabel("Memo ID:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblCreatedFor = new JLabel("Created For:");
 		lblCreatedFor.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -129,45 +130,60 @@ public class MemoDetails {
 		
 		JButton btnExit = new JButton("Exit");
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
-		JButton btnSaveMemo = new JButton("Save Memo");
-		btnSaveMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		GroupLayout groupLayout = new GroupLayout(frmMemoDetails.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(139)
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(129)
 							.addComponent(lblMemoDetails, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(80)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblCreatedBy, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCreatedFor, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblMemoContent, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textPaneMemoContent, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-								.addComponent(textFieldMemoTitle)
-								.addComponent(textFieldCreatedFor, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textFieldCreatedBy, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textFieldMemoID, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(btnEditMemo, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(38, Short.MAX_VALUE))
+						.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(textFieldMemoID, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(lblCreatedBy, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(textFieldCreatedBy, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(lblCreatedFor, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(textFieldCreatedFor, GroupLayout.PREFERRED_SIZE, 392, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(textFieldMemoTitle, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(lblMemoContent, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(textPaneMemoContent, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(70)
+							.addComponent(btnEditMemo, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(20, Short.MAX_VALUE))
 		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(44)
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(17, Short.MAX_VALUE)
+					.addGap(7)
 					.addComponent(lblMemoDetails, GroupLayout.PREFERRED_SIZE, 37, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
@@ -175,29 +191,30 @@ public class MemoDetails {
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 					.addGap(8)
 					.addComponent(textFieldMemoID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(11)
 					.addComponent(lblCreatedBy, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(textFieldCreatedBy, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(7)
 					.addComponent(lblCreatedFor, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(textFieldCreatedFor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(5)
 					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(textFieldMemoTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
 					.addComponent(lblMemoContent, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(11)
 					.addComponent(textPaneMemoContent, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 					.addGap(34)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnEditMemo, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(44, Short.MAX_VALUE))
+						.addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
-		frmMemoDetails.getContentPane().setLayout(groupLayout);
+		contentPane.setLayout(gl_contentPane);
 	}
+
 }
