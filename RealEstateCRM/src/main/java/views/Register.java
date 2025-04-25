@@ -112,7 +112,7 @@ public class Register {
 		textFieldLastName.setColumns(10);
 		
 		JComboBox comboBoxRole = new JComboBox();
-		comboBoxRole.setModel(new DefaultComboBoxModel(new String[] {"", "Realtor", "Client"}));
+		comboBoxRole.setModel(new DefaultComboBoxModel(new String[] {"", "Agent", "Broker"}));
 		comboBoxRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		comboBoxRole.setToolTipText("");

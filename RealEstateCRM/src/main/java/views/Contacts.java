@@ -119,7 +119,7 @@ public class Contacts {
 		lblRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JComboBox comboBoxRole = new JComboBox();
-		comboBoxRole.setModel(new DefaultComboBoxModel(new String[] {"", "Realtor", "Client"}));
+		comboBoxRole.setModel(new DefaultComboBoxModel(new String[] {"", "Agent", "Broker", "Client"}));
 		comboBoxRole.setToolTipText("");
 		comboBoxRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
