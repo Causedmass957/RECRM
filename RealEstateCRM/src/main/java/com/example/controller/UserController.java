@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.model.User;
 import com.example.service.UserService;
 
-
+@ComponentScan(basePackages = {
+	    "com.technicalkeeda"
+	})
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value="/user")

@@ -7,6 +7,6 @@ import com.example.model.Contact;
 public interface ContactRepo extends JpaRepository<Contact, Integer>{
 	
 	public Contact findById(int contactId);
-	public Contact findByEmail(String contactEmail);
+	public Contact findByEmail(String email);
 
 }
