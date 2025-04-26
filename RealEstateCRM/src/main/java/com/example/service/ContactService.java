@@ -47,8 +47,8 @@ public class ContactService {
 		return cRepo.findById(contactId);
 	}
 	
-	public Contact getContactByEmail(String contactEmail) {
-		return cRepo.findByEmail(contactEmail);
+	public Contact getContactByEmail(String email) {
+		return cRepo.findByEmail(email);
 	}
 
 }
