@@ -14,9 +14,16 @@ import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.event.ActionEvent;
+import com.example.repository.ConnectPostgres;
 
 public class Login {
 
@@ -75,20 +82,103 @@ public class Login {
 		JLabel lblNewLabel_3 = new JLabel("Not a user yet? Sign up here!");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
+		//click event, log in and end on home page
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String userName = textFieldUserName.getText();
+				char[] password = passwordField.getPassword();
+				String passwordString = new String(password); //convert char to string
+				String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+				
+				//TODO:: make sure users and password are the correct database names
+				
+				if (userName == null || userName.isEmpty() || userName.trim().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null,  "Please enter a username");
+					textFieldUserName.requestFocus();
+					return;
+				}
+				if (password == null || password.length < 1)
+				{
+					JOptionPane.showMessageDialog(null,  "Please enter your password");
+					passwordField.requestFocus();
+					return;
+				}
+				
+				
+				//
+				//check user name/password vs database
+				
+				try (Connection conn = ConnectPostgres.getConnection();
+						PreparedStatement stmt = conn.prepareStatement(query))
+				{
+					//set the username and password parameters in the query
+					stmt.setString(1, userName);
+					stmt.setString(2, passwordString);
+					
+					//execute the query
+					try (ResultSet rs = stmt.executeQuery())
+					{
+						if (rs.next()) 
+						{
+							//login button works, and navigate to home page
+							
+							
+								
+							if (frmLogin != null)
+							{
+								//close login page
+								frmLogin.dispose();
+							}
+							
+							//new instance of register page
+							HomeJ home = new HomeJ();
+							//set register page visible
+							home.setVisible(true);
+							
+						}
+						else
+						{
+							System.out.println("Invalid username or password.");
+						}
+					}
+					catch (SQLException e1)
+					{
+						e1.printStackTrace();
+					}
+				}
+				catch (SQLException e1)
+				{
+					e1.printStackTrace();
+				}
+			
+					
+			
+			}});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JButton btnExit = new JButton("Sign in");
+		//click event, exit button (exit app)
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmLogin.dispose();
+			}
+		});
+		
+		
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		//Click event, go to registration page
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO::
 				
+				//close login page
 				frmLogin.dispose();
+				//new instance of register page
 				RegisterJ register = new RegisterJ();
+				//set register page visible
 				register.setVisible(true);
 				
 			}
