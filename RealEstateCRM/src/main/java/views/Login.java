@@ -92,7 +92,7 @@ public class Login {
 				String query = "SELECT * FROM users WHERE username = ? AND password = ?";
 				
 				//TODO:: make sure users and password are the correct database names
-				
+				/*
 				if (userName == null || userName.isEmpty() || userName.trim().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,  "Please enter a username");
@@ -152,6 +152,7 @@ public class Login {
 				{
 					e1.printStackTrace();
 				}
+				*/
 			
 					
 			
