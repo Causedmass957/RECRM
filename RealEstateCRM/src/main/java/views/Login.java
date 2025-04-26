@@ -17,6 +17,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,10 +94,8 @@ public class Login {
 				String userName = textFieldUserName.getText();
 				char[] password = passwordField.getPassword();
 				String passwordString = new String(password); //convert char to string
-				String query = "SELECT * FROM users WHERE username = ? AND password = ?";
 				
-				//TODO:: make sure users and password are the correct database names
-				/*
+				
 				if (userName == null || userName.isEmpty() || userName.trim().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,  "Please enter a username");
@@ -106,8 +109,44 @@ public class Login {
 					return;
 				}
 				
+				URL url;
+				try {
+					url = new URL("http://localhost:9015/user/login/"+ userName); // <- POST to login endpoint
+				    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+				    con.setRequestMethod("POST");
+				    con.setRequestProperty("Content-Type", "application/json; utf-8");
+				    con.setRequestProperty("Accept", "application/json");
+				    con.setDoOutput(true); // Needed for POST request
+
+				    // Create the JSON body
+				    String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", userName, passwordString);
+
+				    // Write JSON to request body
+				    try (java.io.OutputStream os = con.getOutputStream()) {
+				        byte[] input = jsonInputString.getBytes("utf-8");
+				        os.write(input, 0, input.length);
+				    }
+
+				    // Get response code
+				    int code = con.getResponseCode();
+				    if (code == HttpURLConnection.HTTP_OK) {
+				        // Successful login
+				        JOptionPane.showMessageDialog(null, "Login Successful!");
+				        frmLogin.dispose(); // Close login window
+				        HomeJ home = new HomeJ();
+				        home.setVisible(true);
+				    } else {
+				        // Login failed
+				        JOptionPane.showMessageDialog(null, "Login Failed. Please check your username and password.");
+				    }
+				} catch (Exception ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+		        
+		        
 				
-				//
+				/*
 				//check user name/password vs database
 				
 				try (Connection conn = ConnectPostgres.getConnection();
@@ -117,36 +156,7 @@ public class Login {
 					stmt.setString(1, userName);
 					stmt.setString(2, passwordString);
 					
-					//execute the query
-					try (ResultSet rs = stmt.executeQuery())
-					{
-						if (rs.next()) 
-						{
-							//login button works, and navigate to home page
-							
-							
-								
-							if (frmLogin != null)
-							{
-								//close login page
-								frmLogin.dispose();
-							}
-							
-							//new instance of register page
-							HomeJ home = new HomeJ();
-							//set register page visible
-							home.setVisible(true);
-							
-						}
-						else
-						{
-							System.out.println("Invalid username or password.");
-						}
-					}
-					catch (SQLException e1)
-					{
-						e1.printStackTrace();
-					}
+					
 				}
 				catch (SQLException e1)
 				{

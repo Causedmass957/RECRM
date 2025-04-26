@@ -56,7 +56,7 @@ public class UserController {
 			return ResponseEntity.badRequest().build();
 		}
 		uServe.registerUser(user);
-		return ResponseEntity.status(201).body(uServe.getUserByEmail(user.getEmail()));
+		return ResponseEntity.status(200).body(uServe.getUserByEmail(user.getEmail()));
 	}
 	
 	@PostMapping(value="/login/{username}")
@@ -67,7 +67,7 @@ public class UserController {
 		if(!corUser.isPresent() || !corUser.get().getPassword().equals(userMap.get("password"))) 
 			return ResponseEntity.badRequest().build();
 		System.out.println("Success");
-		return ResponseEntity.status(201).body(corUser.get());
+		return ResponseEntity.status(200).body(corUser.get());
 	}
 
 }
