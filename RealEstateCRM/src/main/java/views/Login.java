@@ -13,6 +13,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import com.example.utils.Session;
+
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
@@ -130,6 +133,7 @@ public class Login extends JFrame {
 				    // Get response code
 				    int code = con.getResponseCode();
 				    if (code == HttpURLConnection.HTTP_OK) {
+				    	Session.setLoggedInUser(userName);
 				        // Successful login
 				        JOptionPane.showMessageDialog(null, "Login Successful!");
 				        frmLogin.dispose(); // Close login window

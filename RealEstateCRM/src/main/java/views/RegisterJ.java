@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.example.model.User;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSeparator;
@@ -13,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
@@ -258,6 +264,30 @@ public class RegisterJ extends JFrame {
 					.addGap(416))
 		);
 		contentPane.setLayout(gl_contentPane);
+		
+		btnRegister.addActionListener((ActionListener) new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                 // Validate form
+                String firstName = textFieldFirstName.getText();
+                String lastName = textFieldLastName.getText();
+                String email = textFieldEmail.getText();
+                String userID = textFieldUserID.getText();
+                String password = new String(passwordField.getPassword());
+                String confirmPassword = new String(passwordField_1.getPassword());
+
+                if (!password.equals(confirmPassword)) {
+                    JOptionPane.showMessageDialog(null, "Passwords do not match.");
+                    return;
+                }
+                
+                User newUser = new User(firstName + " " + lastName, email, password, confirmPassword);
+
+                //TODO:: Put in code to save user information into Database
+
+            }
+        });
+		
 	}
 
 }

@@ -119,6 +119,14 @@ public class Contact {
 
 	public void setContactId(int contactId) {
 		this.contactId = contactId;
+	}	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
