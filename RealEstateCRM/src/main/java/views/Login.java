@@ -28,9 +28,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
-import com.example.repository.ConnectPostgres;
 
-public class Login {
+public class Login extends JFrame {
 
 	private JFrame frmLogin;
 	private JTextField textFieldUserName;
@@ -86,6 +85,7 @@ public class Login {
 		
 		JLabel lblNewLabel_3 = new JLabel("Not a user yet? Sign up here!");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
 		
 		//click event, log in and end on home page
 		JButton btnLogin = new JButton("Login");
@@ -145,26 +145,6 @@ public class Login {
 				}
 		        
 		        
-				
-				/*
-				//check user name/password vs database
-				
-				try (Connection conn = ConnectPostgres.getConnection();
-						PreparedStatement stmt = conn.prepareStatement(query))
-				{
-					//set the username and password parameters in the query
-					stmt.setString(1, userName);
-					stmt.setString(2, passwordString);
-					
-					
-				}
-				catch (SQLException e1)
-				{
-					e1.printStackTrace();
-				}
-				*/
-			
-					
 			
 			}});
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -173,7 +153,7 @@ public class Login {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmLogin.dispose();
+				frmLogin.setVisible(false); //make Login frame invisible
 			}
 		});
 		
@@ -186,10 +166,10 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 				
 				//close login page
-				frmLogin.dispose();
+				frmLogin.setVisible(false);
 				//new instance of register page
 				RegisterJ register = new RegisterJ();
-				//set register page visible
+				//set the JFrame visible
 				register.setVisible(true);
 				
 			}
@@ -199,6 +179,7 @@ public class Login {
 		
 		JSeparator separator_1_1 = new JSeparator();
 		GroupLayout groupLayout = new GroupLayout(frmLogin.getContentPane());
+		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -270,4 +251,6 @@ public class Login {
 		);
 		frmLogin.getContentPane().setLayout(groupLayout);
 	}
-}
+		
+	}
+

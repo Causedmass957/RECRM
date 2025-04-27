@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,12 +10,18 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingUtilities;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RegisterJ extends JFrame {
 
@@ -28,6 +35,8 @@ public class RegisterJ extends JFrame {
 	private JPasswordField passwordField_1;
 	private JTextField textFieldPhoneNumber;
 
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -48,6 +57,7 @@ public class RegisterJ extends JFrame {
 	 * Create the frame.
 	 */
 	public RegisterJ() {
+		setTitle("Register");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 663, 964);
 		contentPane = new JPanel();
@@ -118,10 +128,49 @@ public class RegisterJ extends JFrame {
 		
 		JSeparator separator_1_1_1_1 = new JSeparator();
 		
+		//click event - register button
 		JButton btnRegister = new JButton("Register");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				 // Validate form
+		        String firstName = textFieldFirstName.getText();
+		        String lastName = textFieldLastName.getText();
+		        String email = textFieldEmail.getText();
+		        String userID = textFieldUserID.getText();
+		        String password = new String(passwordField.getPassword());
+		        String confirmPassword = new String(passwordField_1.getPassword());
+		        
+		        if (!password.equals(confirmPassword)) {
+		            JOptionPane.showMessageDialog(null, "Passwords do not match.");
+		            return;
+		        }
+		        
+		        //TODO:: Put in code to save user information into Database
+				
+			}
+		});
+		
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event, go back button, go to login page
 		JButton btnGoBack = new JButton("Go Back");
+		btnGoBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				RegisterJ.this.setVisible(false);
+				
+				Login loginpage = new Login();  // New instance of the login page
+				loginpage.setLocationRelativeTo(null); //Center the window
+				loginpage.setVisible(true); //make login frame visible
+				
+				//RegisterJ.this.dispose();  // Close the current registration window
+			}
+		        });
+		        
+		        
+			
+		
 		btnGoBack.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
