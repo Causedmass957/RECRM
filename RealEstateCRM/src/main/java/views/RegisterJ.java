@@ -115,29 +115,33 @@ public class RegisterJ extends JFrame {
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		    	
 		        String email = textFieldEmail.getText();
 		        String userName = textFieldUserID.getText();
 		        String password = new String(passwordField.getPassword());
 		        String confirmPassword = new String(passwordField_1.getPassword());
-		        String role = "Realtor"; // <- Get role from the textbox
+		        String role = textFieldRole.getText(); // <- Get role from the textbox
 		        
-		        if (!password.equals(confirmPassword)) {
-		            JOptionPane.showMessageDialog(null, "Passwords do not match.");
-		            return;
-		        }
+		        //if (!password.equals(confirmPassword)) {
+		        //    JOptionPane.showMessageDialog(null, "Passwords do not match.");
+		        //    return;
+		        //}
 
-		        User newUser = new User(userName, password, role, email);
+		        //User newUser = new User(userName, password, role, email);
 
 		        String url = "http://localhost:9015/user";
 		        try {
 		            HttpURLConnection con = Session.createConnection(url, "POST");
+		            con.setDoOutput(true);
 
 		            String jsonBody = "{"
-		                + "\"userName\":\"" + userName + "\","
-		                + "\"email\":\"" + email + "\","
-		                + "\"password\":\"" + password + "\","
-		                + "\"role\":\"" + role + "\""
+		                + "\"username\": \"" + userName + "\","
+		                + "\"email\": \"" + email + "\","
+		                + "\"password\": \"" + password + "\","
+		                + "\"role\": \"" + role + "\""
 		                + "}";
+		            
+		            System.out.println(jsonBody);
 
 		            try (java.io.OutputStream os = con.getOutputStream()) {
 		                byte[] input = jsonBody.getBytes("utf-8");
@@ -156,7 +160,7 @@ public class RegisterJ extends JFrame {
 
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
-		            JOptionPane.showMessageDialog(null, "An error occurred during registration.");
+		            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
 		        }
 		    }
 		});
