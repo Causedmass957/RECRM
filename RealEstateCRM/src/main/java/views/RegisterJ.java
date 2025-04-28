@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.example.model.User;
+import com.example.utils.Session;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -18,6 +19,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -84,6 +87,7 @@ public class RegisterJ extends JFrame {
 		JLabel lblUserid = new JLabel("User Name");
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//userId is really username. TODO
 		textFieldUserID = new JTextField();
 		textFieldUserID.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textFieldUserID.setColumns(10);
@@ -126,9 +130,40 @@ public class RegisterJ extends JFrame {
 		            return;
 		        }
 		        
-		        User newUser = new User(email, userName, password, role);
+		        User newUser = new User( userName, password, role, email);
 		        
 		        //TODO:: Put in code to save user information into Database
+		        String url = "http://localhost:9015/user/";
+				try {
+					HttpURLConnection con = Session.createConnection(url,"POST");
+					String jsonBody = "{"
+					        + "\"userName\":\"" + userName + "\","
+					        + "\"email\":\"" + email + "\","
+					        + "\"password\":\"" + password + "\""
+							+ "\"role\":\"" + role + "\","
+					        + "}";
+					
+					try (java.io.OutputStream os = con.getOutputStream()) {
+				        byte[] input = jsonBody.getBytes("utf-8");
+				        os.write(input, 0, input.length);
+				    }
+					
+					int code = con.getResponseCode();
+				    if (code == HttpURLConnection.HTTP_OK && password.equals(confirmPassword)) {
+				    	Session.setLoggedInUser(userName);
+				        // Successful register
+				        JOptionPane.showMessageDialog(null, "Register Successful!");
+				        JFrame home = new HomeJ();
+				        Session.navigateTo(home);
+				    } else {
+				        // Login failed
+				        JOptionPane.showMessageDialog(null, "Registration Failed. Please check your username and password.Try using a different email, may already be registered.");
+				    }
+				    
+				} catch (Exception ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
 				
 			}
 		});
