@@ -52,7 +52,7 @@ public class RegisterJ extends JFrame {
 			public void run() {
 				try {
 					RegisterJ frame = new RegisterJ();
-					frame.setVisible(true);
+					Session.navigateTo(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -114,59 +114,53 @@ public class RegisterJ extends JFrame {
 		//click event - register button
 		JButton btnRegister = new JButton("Register");
 		btnRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				 // Validate form
-		        //String firstName = textFieldFirstName.getText();
-		        //String lastName = textFieldLastName.getText();
+		    public void actionPerformed(ActionEvent e) {
 		        String email = textFieldEmail.getText();
 		        String userName = textFieldUserID.getText();
 		        String password = new String(passwordField.getPassword());
 		        String confirmPassword = new String(passwordField_1.getPassword());
-		        String role = textFieldRole.getText();
+		        String role = "Realtor"; // <- Get role from the textbox
 		        
 		        if (!password.equals(confirmPassword)) {
 		            JOptionPane.showMessageDialog(null, "Passwords do not match.");
 		            return;
 		        }
-		        
-		        User newUser = new User( userName, password, role, email);
-		        
-		        //TODO:: Put in code to save user information into Database
-		        String url = "http://localhost:9015/user/";
-				try {
-					HttpURLConnection con = Session.createConnection(url,"POST");
-					String jsonBody = "{"
-					        + "\"userName\":\"" + userName + "\","
-					        + "\"email\":\"" + email + "\","
-					        + "\"password\":\"" + password + "\""
-							+ "\"role\":\"" + role + "\","
-					        + "}";
-					
-					try (java.io.OutputStream os = con.getOutputStream()) {
-				        byte[] input = jsonBody.getBytes("utf-8");
-				        os.write(input, 0, input.length);
-				    }
-					
-					int code = con.getResponseCode();
-				    if (code == HttpURLConnection.HTTP_OK && password.equals(confirmPassword)) {
-				    	Session.setLoggedInUser(userName);
-				        // Successful register
-				        JOptionPane.showMessageDialog(null, "Register Successful!");
-				        JFrame home = new HomeJ();
-				        Session.navigateTo(home);
-				    } else {
-				        // Login failed
-				        JOptionPane.showMessageDialog(null, "Registration Failed. Please check your username and password.Try using a different email, may already be registered.");
-				    }
-				    
-				} catch (Exception ex) {
-					// TODO Auto-generated catch block
-					ex.printStackTrace();
-				}
-				
-			}
+
+		        User newUser = new User(userName, password, role, email);
+
+		        String url = "http://localhost:9015/user";
+		        try {
+		            HttpURLConnection con = Session.createConnection(url, "POST");
+
+		            String jsonBody = "{"
+		                + "\"userName\":\"" + userName + "\","
+		                + "\"email\":\"" + email + "\","
+		                + "\"password\":\"" + password + "\","
+		                + "\"role\":\"" + role + "\""
+		                + "}";
+
+		            try (java.io.OutputStream os = con.getOutputStream()) {
+		                byte[] input = jsonBody.getBytes("utf-8");
+		                os.write(input, 0, input.length);
+		            }
+
+		            int code = con.getResponseCode();
+		            if ((code == HttpURLConnection.HTTP_OK || code == HttpURLConnection.HTTP_CREATED) && password.equals(confirmPassword)) {
+		                Session.setLoggedInUser(userName);
+		                JOptionPane.showMessageDialog(null, "Register Successful!");
+		                JFrame home = new HomeJ();
+		                Session.navigateTo(home);
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Registration Failed. Maybe the username or email is already taken.");
+		            }
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "An error occurred during registration.");
+		        }
+		    }
 		});
+
 		
 		
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -176,11 +170,8 @@ public class RegisterJ extends JFrame {
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				RegisterJ.this.setVisible(false);
-				
-				Login loginpage = new Login();  // New instance of the login page
-				loginpage.setLocationRelativeTo(null); //Center the window
-				loginpage.setVisible(true); //make login frame visible
+				Login loginj = new Login();
+				Session.navigateTo(loginj);
 				
 				//RegisterJ.this.dispose();  // Close the current registration window
 				//TODO:: Fix goback button so it works
