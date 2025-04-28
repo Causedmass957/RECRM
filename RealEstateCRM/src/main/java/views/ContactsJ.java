@@ -52,6 +52,9 @@ public class ContactsJ extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 641);
 		
+		
+		
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
@@ -74,6 +77,10 @@ public class ContactsJ extends JFrame {
 		JMenuItem mntmLogOut = new JMenuItem("Log Out");
 		mntmLogOut.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		mnMenu.add(mntmLogOut);
+		
+		
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
