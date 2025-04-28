@@ -46,7 +46,7 @@ public class Login extends JFrame {
 			public void run() {
 				try {
 					Login window = new Login();
-					window.frmLogin.setVisible(true);
+					Session.navigateTo(window);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -112,14 +112,10 @@ public class Login extends JFrame {
 					return;
 				}
 				
-				URL url;
+				//URL url;
 				try {
-					url = new URL("http://localhost:9015/user/login/"+ userName); // <- POST to login endpoint
-				    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-				    con.setRequestMethod("POST");
-				    con.setRequestProperty("Content-Type", "application/json; utf-8");
-				    con.setRequestProperty("Accept", "application/json");
-				    con.setDoOutput(true); // Needed for POST request
+					String url = "http://localhost:9015/user/login/"+ userName; // <- POST to login endpoint
+				    HttpURLConnection con = Session.createConnection(userName, passwordString);
 
 				    // Create the JSON body
 				    String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", userName, passwordString);
@@ -169,12 +165,9 @@ public class Login extends JFrame {
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//close login page
-				frmLogin.setVisible(false);
 				//new instance of register page
 				RegisterJ register = new RegisterJ();
-				//set the JFrame visible
-				register.setVisible(true);
+				Session.navigateTo(register);
 				
 			}
 		});

@@ -52,7 +52,7 @@ public class RegisterJ extends JFrame {
 			public void run() {
 				try {
 					RegisterJ frame = new RegisterJ();
-					frame.setVisible(true);
+					Session.navigateTo(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
