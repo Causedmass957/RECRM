@@ -183,6 +183,8 @@ public class RegisterJ extends JFrame {
 				loginpage.setVisible(true); //make login frame visible
 				
 				//RegisterJ.this.dispose();  // Close the current registration window
+				//TODO:: Fix goback button so it works
+				
 			}
 		        });
 		        
