@@ -1,5 +1,6 @@
 package com.example.utils;
 
+import java.awt.Window;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,6 +15,8 @@ public class Session {
 	
 	private static Stack<JFrame> backStack = new Stack<>();
     private static Stack<JFrame> forwardStack = new Stack<>();
+
+	private static JFrame currentFrame;
 	
 	public static void setLoggedInUser(String username) {
         loggedInUser = username;
@@ -32,31 +35,42 @@ public class Session {
     }
     
     // Navigation Methods
-    public static void navigateTo(JFrame newFrame) {
-        if (!backStack.isEmpty()) {
-            JFrame current = backStack.peek();
-            current.setVisible(false); // Hide current frame
+    public static void navigateTo(JFrame frame) {
+        if (currentFrame != null) {
+            currentFrame.dispose(); // Close the current frame
         }
-        backStack.push(newFrame);
-        newFrame.setVisible(true);
+        currentFrame = frame;
+        currentFrame.setVisible(true);
     }
 
+ // Method to go back to the previous frame
     public static void goBack() {
-        if (backStack.size() > 1) {
-            JFrame current = backStack.pop();
-            forwardStack.push(current);
-            current.setVisible(false);
+        if (!backStack.isEmpty()) {
+            // Push the current frame to the forward stack
+            forwardStack.push(currentFrame);
 
-            JFrame previous = backStack.peek();
-            previous.setVisible(true);
+            // Pop the last frame from the back stack and navigate to it
+            JFrame previousFrame = backStack.pop();
+            currentFrame.dispose();
+            currentFrame = previousFrame;
+            currentFrame.setVisible(true);
+        } else {
+
         }
     }
 
     public static void goForward() {
         if (!forwardStack.isEmpty()) {
-            JFrame next = forwardStack.pop();
-            backStack.push(next);
-            next.setVisible(true);
+            // Push the current frame to the back stack
+            backStack.push(currentFrame);
+
+            // Pop the last frame from the forward stack and navigate to it
+            JFrame nextFrame = forwardStack.pop();
+            currentFrame.dispose();
+            currentFrame = nextFrame;
+            currentFrame.setVisible(true);
+        } else {
+            System.out.println("No forward frame to go to.");
         }
     }
     

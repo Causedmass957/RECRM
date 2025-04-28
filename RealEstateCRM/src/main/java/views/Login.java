@@ -34,7 +34,6 @@ import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
-	private JFrame frmLogin;
 	private JTextField textFieldUserName;
 	private JPasswordField passwordField;
 
@@ -58,17 +57,10 @@ public class Login extends JFrame {
 	 * Create the application.
 	 */
 	public Login() {
-		initialize();
-	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmLogin = new JFrame();
-		frmLogin.setTitle("Login");
-		frmLogin.setBounds(100, 100, 431, 545);
-		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Login");
+		this.setBounds(100, 100, 431, 545);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
 		//code to set up the menubar, to go on contacts, home, and memos forms
@@ -118,10 +110,15 @@ public class Login extends JFrame {
 				//URL url;
 				try {
 					String url = "http://localhost:9015/user/login/"+ userName; // <- POST to login endpoint
-				    HttpURLConnection con = Session.createConnection(userName, passwordString);
+				    HttpURLConnection con = Session.createConnection(url, "POST");
+
+		            con.setRequestProperty("Content-Type", "application/json; utf-8");
+		            con.setDoOutput(true); // Only POST and PUT send a body
 
 				    // Create the JSON body
 				    String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", userName, passwordString);
+				    
+				    System.out.println("before send");
 
 				    // Write JSON to request body
 				    try (java.io.OutputStream os = con.getOutputStream()) {
@@ -131,13 +128,12 @@ public class Login extends JFrame {
 
 				    // Get response code
 				    int code = con.getResponseCode();
+				    System.out.println("after send");
 				    if (code == HttpURLConnection.HTTP_OK) {
 				    	Session.setLoggedInUser(userName);
 				        // Successful login
 				        JOptionPane.showMessageDialog(null, "Login Successful!");
-				        frmLogin.dispose(); // Close login window
-				        HomeJ home = new HomeJ();
-				        home.setVisible(true);
+				        Session.navigateTo(new Login());
 				    } else {
 				        // Login failed
 				        JOptionPane.showMessageDialog(null, "Login Failed. Please check your username and password.");
@@ -156,7 +152,8 @@ public class Login extends JFrame {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmLogin.setVisible(false); //make Login frame invisible
+				//this.setVisible(false); //make Login frame invisible
+				System.exit(0);
 			}
 		});
 		
@@ -178,7 +175,7 @@ public class Login extends JFrame {
 		JSeparator separator_1 = new JSeparator();
 		
 		JSeparator separator_1_1 = new JSeparator();
-		GroupLayout groupLayout = new GroupLayout(frmLogin.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(this.getContentPane());
 		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -249,8 +246,9 @@ public class Login extends JFrame {
 					.addComponent(btnRegister)
 					.addGap(151))
 		);
-		frmLogin.getContentPane().setLayout(groupLayout);
+		this.getContentPane().setLayout(groupLayout);
 	}
-		
 	}
+
+	
 
