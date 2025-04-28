@@ -51,28 +51,10 @@ public class MemoDetailsJ extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 565, 693);
 		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		//navigation menu
+		setJMenuBar(MenuNavigation.createMenuBar());
 		
-		JMenu mnMenu = new JMenu("Menu");
-		mnMenu.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		menuBar.add(mnMenu);
 		
-		JMenuItem mntmHome = new JMenuItem("Home");
-		mntmHome.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnMenu.add(mntmHome);
-		
-		JMenuItem mntmContacts = new JMenuItem("Contacts");
-		mntmContacts.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnMenu.add(mntmContacts);
-		
-		JMenuItem mntmMemos = new JMenuItem("Memos");
-		mntmMemos.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnMenu.add(mntmMemos);
-		
-		JMenuItem mntmLogOut = new JMenuItem("Log Out");
-		mntmLogOut.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		mnMenu.add(mntmLogOut);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

@@ -1,21 +1,21 @@
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\ContactController.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\UserController.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\demo\RealEstateCrmApplication.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\Contact.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\Memo.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\User.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\ContactRepo.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\MemoRepo.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\UserRepo.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\ContactService.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\MemoService.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\UserService.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\utils\Session.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\AppState.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\ContactsJ.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\HomeJ.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\Login.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MemoDetailsJ.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MemosJ.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MenuBar.java
-C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\RegisterJ.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\controller\ContactController.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\controller\UserController.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\demo\RealEstateCrmApplication.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\model\Contact.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\model\Memo.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\model\User.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\repository\ContactRepo.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\repository\MemoRepo.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\repository\UserRepo.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\service\ContactService.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\service\MemoService.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\service\UserService.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\com\example\utils\Session.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\AppState.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\ContactsJ.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\HomeJ.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\Login.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\MemoDetailsJ.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\MemosJ.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\MenuBar.java
+C:\Users\Rizzy\Final Project CEN4031\RECRM\RealEstateCRM\src\main\java\views\RegisterJ.java

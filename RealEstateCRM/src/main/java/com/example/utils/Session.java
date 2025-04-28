@@ -12,10 +12,8 @@ import javax.swing.JFrame;
 public class Session {
 	
 	private static String loggedInUser;
-	
 	private static Stack<JFrame> backStack = new Stack<>();
     private static Stack<JFrame> forwardStack = new Stack<>();
-
 	private static JFrame currentFrame;
 	
 	public static void setLoggedInUser(String username) {
