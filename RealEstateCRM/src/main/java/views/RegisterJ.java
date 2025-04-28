@@ -37,7 +37,7 @@ public class RegisterJ extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldEmail;
-	private JTextField textFieldUserID;
+	private JTextField textFieldUserName;
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JTextField textFieldRole;
@@ -87,10 +87,10 @@ public class RegisterJ extends JFrame {
 		JLabel lblUserid = new JLabel("User Name");
 		lblUserid.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		//userId is really username. TODO
-		textFieldUserID = new JTextField();
-		textFieldUserID.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textFieldUserID.setColumns(10);
+		
+		textFieldUserName = new JTextField();
+		textFieldUserName.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		textFieldUserName.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -117,7 +117,7 @@ public class RegisterJ extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		    	
 		        String email = textFieldEmail.getText();
-		        String userName = textFieldUserID.getText();
+		        String userName = textFieldUserName.getText();
 		        String password = new String(passwordField.getPassword());
 		        String confirmPassword = new String(passwordField_1.getPassword());
 		        String role = textFieldRole.getText(); // <- Get role from the textbox
@@ -177,8 +177,6 @@ public class RegisterJ extends JFrame {
 				Login loginj = new Login();
 				Session.navigateTo(loginj);
 				
-				//RegisterJ.this.dispose();  // Close the current registration window
-				//TODO:: Fix goback button so it works
 				
 			}
 		        });
@@ -202,7 +200,7 @@ public class RegisterJ extends JFrame {
 						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, 463, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblUserid, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textFieldUserID, GroupLayout.PREFERRED_SIZE, 463, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textFieldUserName, GroupLayout.PREFERRED_SIZE, 463, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
 						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 463, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblConfirmPassword, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
@@ -234,7 +232,7 @@ public class RegisterJ extends JFrame {
 					.addGap(11)
 					.addComponent(lblUserid, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
-					.addComponent(textFieldUserID, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+					.addComponent(textFieldUserName, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 					.addGap(11)
 					.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
