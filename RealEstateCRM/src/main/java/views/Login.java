@@ -70,6 +70,10 @@ public class Login extends JFrame {
 		frmLogin.setBounds(100, 100, 431, 545);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		
+		//code to set up the menubar, to go on contacts, home, and memos forms
+		//this.setJMenuBar(new MenuBar(this));
+		
 		JLabel lblNewLabel = new JLabel("Login");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
 		
@@ -88,7 +92,6 @@ public class Login extends JFrame {
 		
 		JLabel lblNewLabel_3 = new JLabel("Not a user yet? Sign up here!");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		
 		
 		//click event, log in and end on home page
 		JButton btnLogin = new JButton("Login");
