@@ -18,7 +18,7 @@ public class MenuNavigation {
 
         //contacts
         JMenuItem contacts = new JMenuItem("Contacts");
-        contacts.addActionListener(e -> Session.navigateTo(new ContactsJ()));
+        contacts.addActionListener(e -> Session.navigateTo(new AllContacts()));
 
         //memos
         JMenuItem memos = new JMenuItem("Memos");
