@@ -77,16 +77,13 @@ public class HomeJ extends JFrame {
 		
 		JSeparator separator_1_1 = new JSeparator();
 		
-		JLabel lblNewLabel = new JLabel("Welcome message goes here");
+		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
-		
-
 				
 		List<Contact> contacts = new ArrayList<>();
 		try {
 			HttpURLConnection con = Session.createConnection("http://localhost:9015/contact/all/" + Session.getLoggedInUser(), "GET");
-			System.out.println("Connection received");
+			//System.out.println("Connection received");
 			if (con.getResponseCode() != 201) {
 	            throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
 	        }
@@ -98,7 +95,7 @@ public class HomeJ extends JFrame {
 	            jsonOutput.append(output);
 	        }
 	        
-	        System.out.println(jsonOutput);
+	        //System.out.println(jsonOutput);
 	        
 	        ObjectMapper mapper = new ObjectMapper();
 			mapper.registerModule(new JavaTimeModule());
