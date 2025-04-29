@@ -7,6 +7,8 @@ import com.example.utils.Session;
 
 public class MenuNavigation {
     public static JMenuBar createMenuBar() {
+    	System.out.println("Creating menu bar here, works");
+
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("RECRM");
 
@@ -48,6 +50,9 @@ public class MenuNavigation {
         menu.add(logout);
 
         menuBar.add(menu);
+        
+        menuBar.setVisible(true);
+        menu.setVisible(true);
         return menuBar;
     }
 }

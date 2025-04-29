@@ -133,7 +133,7 @@ public class Login extends JFrame {
 				    	Session.setLoggedInUser(userName);
 				        // Successful login
 				        JOptionPane.showMessageDialog(null, "Login Successful!");
-				        Session.navigateTo(new Login());
+				        Session.navigateTo(new HomeJ());
 				    } else {
 				        // Login failed
 				        JOptionPane.showMessageDialog(null, "Login Failed. Please check your username and password.");
