@@ -1,15 +1,33 @@
 package views;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.example.model.Contact;
+import com.example.utils.Session;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
@@ -27,7 +45,7 @@ public class HomeJ extends JFrame {
 			public void run() {
 				try {
 					HomeJ frame = new HomeJ();
-					frame.setVisible(true);
+					Session.navigateTo(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,6 +57,8 @@ public class HomeJ extends JFrame {
 	 * Create the frame.
 	 */
 	public HomeJ() {
+		//System.out.println("Creating menu bar...");
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 477, 403);
 		
@@ -59,6 +79,49 @@ public class HomeJ extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Welcome message goes here");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		
+
+				
+		List<Contact> contacts = new ArrayList<>();
+		try {
+			HttpURLConnection con = Session.createConnection("http://localhost:9015/contact/all/" + Session.getLoggedInUser(), "GET");
+			System.out.println("Connection received");
+			if (con.getResponseCode() != 201) {
+	            throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+	        }
+
+	        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+	        StringBuilder jsonOutput = new StringBuilder();
+	        String output;
+	        while ((output = br.readLine()) != null) {
+	            jsonOutput.append(output);
+	        }
+	        
+	        System.out.println(jsonOutput);
+	        
+	        ObjectMapper mapper = new ObjectMapper();
+			mapper.registerModule(new JavaTimeModule());
+
+	        contacts = mapper.readValue(jsonOutput.toString(), new TypeReference<List<Contact>>() {});
+	        
+	        con.disconnect();    
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		List<Contact> upcomingBirthdays = getUpcomingBirthdays(contacts);
+
+		int yPosition = 200;
+		for (Contact contact : upcomingBirthdays) {
+		    JLabel birthdayLabel = new JLabel(contact.getContactName() + " - Birthday: " + contact.getDob());
+		    birthdayLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		    birthdayLabel.setBounds(20, yPosition, 400, 30);
+		    contentPane.add(birthdayLabel);
+		    yPosition += 40;
+		}
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -86,5 +149,23 @@ public class HomeJ extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	public List<Contact> getUpcomingBirthdays(List<Contact> allContacts) {
+	    List<Contact> upcomingBirthdays = new ArrayList<>();
+	    LocalDate now = LocalDate.now();
+
+	    for (Contact contact : allContacts) {
+	        if (contact.getDob() != null) {
+	            LocalDate birthdayThisYear = contact.getDob().withYear(now.getYear());
+	            long daysBetween = ChronoUnit.DAYS.between(now, birthdayThisYear);
+
+	            if (daysBetween >= 0 && daysBetween <= 30) {
+	                upcomingBirthdays.add(contact);
+	            }
+	        }
+	    }
+	    return upcomingBirthdays;
+	}
+
 
 }

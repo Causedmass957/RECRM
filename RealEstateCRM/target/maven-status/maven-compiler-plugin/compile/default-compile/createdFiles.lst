@@ -3,7 +3,9 @@ com\example\model\Contact.class
 com\example\demo\RealEstateCrmApplication.class
 views\Login$2.class
 com\example\repository\MemoRepo.class
+com\example\utils\JacksonConfig.class
 views\HomeJ$1.class
+views\MenuNavigation.class
 com\example\controller\UserController.class
 com\example\model\Memo.class
 views\HomeJ.class
@@ -15,6 +17,7 @@ com\example\repository\UserRepo.class
 views\ContactsJ.class
 views\RegisterJ$3.class
 views\MemosJ.class
+views\HomeJ$2.class
 com\example\repository\ContactRepo.class
 views\MemosJ$1.class
 views\MemoDetailsJ.class
