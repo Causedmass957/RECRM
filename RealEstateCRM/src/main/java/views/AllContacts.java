@@ -3,6 +3,8 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -32,19 +34,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.example.utils.Session;
 
 public class AllContacts extends JFrame{
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Session.navigateTo(new AllContacts());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	}
+	
 	
 	public AllContacts() {
 		setTitle("All Contacts");
@@ -116,8 +106,7 @@ public class AllContacts extends JFrame{
 
             // Add your event handlers here
             viewButton.addActionListener(e -> {
-            	Session.setActiveContactId(c.getContactId());
-                Session.navigateTo(new ContactsJ());
+            	
             });
 
             deleteButton.addActionListener(e -> {
@@ -146,7 +135,7 @@ public class AllContacts extends JFrame{
         	int rowIndex = finalContactsTable.getSelectedRow();
             Contact selected = finalContacts.get(rowIndex);
             Session.setActiveContactId(selected.getContactId());
-            Session.navigateTo(new ContactsJ());
+            Session.navigateTo(new ContactsJ(selected));
         }));
         contactsTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JCheckBox(), (rowData) -> {
         	int rowIndex = finalContactsTable.getSelectedRow();
@@ -154,6 +143,16 @@ public class AllContacts extends JFrame{
             
         }));
         add(scrollPane, BorderLayout.CENTER);
+        
+        JButton btnCreateContact = new JButton("Create Contact");
+        btnCreateContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
+        btnCreateContact.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open ContactsJ in "create mode"
+                Session.navigateTo(new ContactsJ(null));
+            }
+        });
+
 
 
         GroupLayout layout = new GroupLayout(contentPane);
@@ -165,6 +164,7 @@ public class AllContacts extends JFrame{
                         .addComponent(lblTitle)
                         .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(btnCreateContact, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -174,6 +174,8 @@ public class AllContacts extends JFrame{
                     .addGap(20)
                     .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(50, Short.MAX_VALUE))
+                .addGap(20)
+                .addComponent(btnCreateContact, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE) // <-- Added this line
         );
 
         contentPane.setLayout(layout);
