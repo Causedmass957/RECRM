@@ -15,22 +15,22 @@ public class Session {
 	private static Stack<JFrame> backStack = new Stack<>();
     private static Stack<JFrame> forwardStack = new Stack<>();
 	private static JFrame currentFrame;
-	private static String activeContcatId; 
+	private static int activeContactId; 
 	
 	public static void setLoggedInUser(String username) {
         loggedInUser = username;
     }
-	
+
     public static String getLoggedInUser() {
         return loggedInUser;
     }
     
-	public static void setActiveContcatId(String contactId) {
-		activeContcatId = contactId;
+	public static void setActiveContactId(int contactId) {
+		activeContactId = contactId;
     }
 	
-    public static String getActiveContcatId() {
-        return activeContcatId;
+    public static int getActiveContactId() {
+        return activeContactId;
     }
 
     public static void logout() {
