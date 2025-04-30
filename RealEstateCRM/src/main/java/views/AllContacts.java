@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -136,11 +137,22 @@ public class AllContacts extends JFrame{
         System.out.println("table should be visible");
         
         contactsTable = new JTable(model);
+        final JTable finalContactsTable = contactsTable;
+        final List<Contact> finalContacts = contacts;
 
         JScrollPane scrollPane = new JScrollPane(contactsTable);
         
-        contactsTable.getColumn("View").setCellEditor(new ButtonEditor());
-        contactsTable.getColumn("Delete").setCellEditor(new ButtonEditor());
+        contactsTable.getColumn("View").setCellEditor(new ButtonEditor(new JCheckBox(), (rowData) -> {
+        	int rowIndex = finalContactsTable.getSelectedRow();
+            Contact selected = finalContacts.get(rowIndex);
+            Session.setActiveContactId(selected.getContactId());
+            Session.navigateTo(new ContactsJ());
+        }));
+        contactsTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JCheckBox(), (rowData) -> {
+        	int rowIndex = finalContactsTable.getSelectedRow();
+            Contact selected = finalContacts.get(rowIndex);
+            
+        }));
         add(scrollPane, BorderLayout.CENTER);
 
 
