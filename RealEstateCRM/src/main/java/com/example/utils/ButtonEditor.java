@@ -1,36 +1,50 @@
 package com.example.utils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.function.Consumer;
 
-public class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
-	private static final long serialVersionUID = 1L;
-    private JButton button;
-    private String label;
+public class ButtonEditor extends DefaultCellEditor {
+    protected JButton button;
+    private boolean isPushed;
+    private Consumer<Object> onClick;
 
-    public ButtonEditor() {
-        button = new JButton();
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Define the action to be taken when the button is clicked
-                System.out.println("View contact clicked!");
-            }
-        });
+    public ButtonEditor(JCheckBox checkBox, Consumer<Object> onClick) {
+        super(checkBox);
+        this.button = new JButton();
+        this.button.setOpaque(true);
+        this.onClick = onClick;
+
+        button.addActionListener(e -> fireEditingStopped());
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value,
+            boolean isSelected, int row, int column) {
+        button.setText((value == null) ? "Action" : value.toString());
+        isPushed = true;
+
+        // Attach row-specific logic if needed
+        button.putClientProperty("row", row);
+        button.putClientProperty("value", value);
+        button.putClientProperty("table", table);
+
+        return button;
     }
 
     @Override
     public Object getCellEditorValue() {
-        return label;
-    }
+        if (isPushed && onClick != null) {
+            JTable table = (JTable) button.getClientProperty("table");
+            int row = (int) button.getClientProperty("row");
 
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-        label = (value == null) ? "" : value.toString();
-        button.setText(label);
-        return button;
+            Object rowData = ((DefaultTableModel) table.getModel()).getValueAt(row, 0); // assuming contact ID or name
+            onClick.accept(rowData);
+        }
+        isPushed = false;
+        return button.getText();
     }
 }
