@@ -19,6 +19,8 @@ import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ContactsJ extends JFrame {
 
@@ -62,13 +64,28 @@ public class ContactsJ extends JFrame {
 
 		setContentPane(contentPane);
 		
+		//click event - delete contact
 		JButton btnDeleteContact = new JButton("Delete Contact");
+		btnDeleteContact.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnDeleteContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event - add contact
 		JButton btnAddContact = new JButton("Add Contact");
+		btnAddContact.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnAddContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event - edit contact
 		JButton btnEditContact = new JButton("Edit Contact");
+		btnEditContact.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnEditContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblContacts = new JLabel("Contacts");
@@ -77,9 +94,9 @@ public class ContactsJ extends JFrame {
 		
 		JSeparator separator_1_1 = new JSeparator();
 		
-		JList listMemo = new JList();
-		listMemo.setVisibleRowCount(20);
-		listMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JList listContacts = new JList();
+		listContacts.setVisibleRowCount(20);
+		listContacts.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblRole = new JLabel("Role");
 		lblRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -122,7 +139,7 @@ public class ContactsJ extends JFrame {
 							.addComponent(lblContacts, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
 						.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(listMemo, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
+							.addComponent(listContacts, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
 							.addGap(36)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
@@ -151,7 +168,7 @@ public class ContactsJ extends JFrame {
 					.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
 					.addGap(34)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(listMemo, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
+						.addComponent(listContacts, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)

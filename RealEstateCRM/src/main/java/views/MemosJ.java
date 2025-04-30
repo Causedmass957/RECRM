@@ -17,6 +17,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MemosJ extends JFrame {
 
@@ -60,16 +62,36 @@ public class MemosJ extends JFrame {
 		listMemo.setVisibleRowCount(20);
 		listMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event - Add Memo
 		JButton btnAddMemo = new JButton("Add Memo");
+		btnAddMemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnAddMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event - delete memo
 		JButton btnDeleteMemo = new JButton("Delete Memo");
+		btnDeleteMemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnDeleteMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event - edit memo
 		JButton btnEditMemo = new JButton("Edit Memo");
+		btnEditMemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnEditMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event - view memo: Leads to MemoDetailsJ
 		JButton btnViewMemo = new JButton("View Memo");
+		btnViewMemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnViewMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JSeparator separator_1_1 = new JSeparator();
