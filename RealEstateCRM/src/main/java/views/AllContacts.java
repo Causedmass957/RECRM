@@ -116,7 +116,7 @@ public class AllContacts extends JFrame{
             // Add your event handlers here
             viewButton.addActionListener(e -> {
             	Session.setActiveContactId(c.getContactId());
-                //new ContactJ(c).setVisible(true); // Assuming ContactJ takes a Contact
+                Session.navigateTo(new ContactsJ());
             });
 
             deleteButton.addActionListener(e -> {
