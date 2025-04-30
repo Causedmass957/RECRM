@@ -15,6 +15,7 @@ public class Session {
 	private static Stack<JFrame> backStack = new Stack<>();
     private static Stack<JFrame> forwardStack = new Stack<>();
 	private static JFrame currentFrame;
+	private static int activeContactId; 
 	
 	public static void setLoggedInUser(String username) {
         loggedInUser = username;
@@ -22,6 +23,14 @@ public class Session {
 
     public static String getLoggedInUser() {
         return loggedInUser;
+    }
+    
+	public static void setActiveContactId(int contactId) {
+		activeContactId = contactId;
+    }
+	
+    public static int getActiveContactId() {
+        return activeContactId;
     }
 
     public static void logout() {

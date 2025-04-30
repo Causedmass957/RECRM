@@ -28,6 +28,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import com.example.utils.Session;
+
 public class AllContacts extends JFrame{
 
 	public static void main(String[] args) {
@@ -113,7 +115,8 @@ public class AllContacts extends JFrame{
 
             // Add your event handlers here
             viewButton.addActionListener(e -> {
-                //new ContactJ(c).setVisible(true); // Assuming ContactJ takes a Contact
+            	Session.setActiveContactId(c.getContactId());
+                Session.navigateTo(new ContactsJ());
             });
 
             deleteButton.addActionListener(e -> {
