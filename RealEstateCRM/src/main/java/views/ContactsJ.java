@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.example.model.Contact;
+import com.example.utils.Session;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuBar;
@@ -30,33 +34,15 @@ public class ContactsJ extends JFrame {
 	private JTextField textFieldPhoneNumber;
 	private JTextField textFieldName;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ContactsJ frame = new ContactsJ();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */
-	public ContactsJ() {
-		setTitle("Contacts");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 641);
-		
-		
-		//navigational menu
-		setJMenuBar(MenuNavigation.createMenuBar());
+	public ContactsJ(Contact contact) {
+	    setTitle("Contacts");
+	    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Important so main app stays open
+	    setBounds(100, 100, 600, 641);
+	    setJMenuBar(MenuNavigation.createMenuBar());
 		
 		
 		contentPane = new JPanel();
@@ -73,12 +59,12 @@ public class ContactsJ extends JFrame {
 		btnDeleteContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		//click event - add contact
-		JButton btnAddContact = new JButton("Add Contact");
-		btnAddContact.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAddContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		//JButton btnAddContact = new JButton("Add Contact");
+		//btnAddContact.addActionListener(new ActionListener() {
+		//	public void actionPerformed(ActionEvent e) {
+		//	}
+		//});
+		//btnAddContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		//click event - edit contact
 		JButton btnEditContact = new JButton("Edit Contact");
@@ -88,18 +74,18 @@ public class ContactsJ extends JFrame {
 		});
 		btnEditContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel lblContacts = new JLabel("Contacts");
+		JLabel lblContacts = new JLabel("Contact");
 		lblContacts.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContacts.setFont(new Font("Tahoma", Font.BOLD, 30));
 		
 		JSeparator separator_1_1 = new JSeparator();
 		
-		JList listContacts = new JList();
-		listContacts.setVisibleRowCount(20);
-		listContacts.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		//JList listContacts = new JList();
+		//listContacts.setVisibleRowCount(20);
+		//listContacts.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JLabel lblRole = new JLabel("Role");
-		lblRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		//JLabel lblRole = new JLabel("Role");
+		//lblRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		textFieldEmail = new JTextField();
 		textFieldEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -125,9 +111,23 @@ public class ContactsJ extends JFrame {
 		JLabel lblNewLabel = new JLabel("Name");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		JComboBox comboBoxRole = new JComboBox();
-		comboBoxRole.setToolTipText("");
-		comboBoxRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		if (contact != null) {
+	        // Edit mode
+	        textFieldName.setText(contact.getContactName());
+	        textFieldEmail.setText(contact.getContactEmail());
+	        textFieldPhoneNumber.setText(contact.getContactPhone());
+	        Session.setActiveContactId(contact.getContactId());
+	    } else {
+	        // Create mode
+	        textFieldName.setEditable(true);
+	        textFieldEmail.setEditable(true);
+	        textFieldPhoneNumber.setEditable(true);
+	        Session.setActiveContactId(-1); // no ID yet
+	    }
+		
+		//JComboBox comboBoxRole = new JComboBox();
+		//comboBoxRole.setToolTipText("");
+		//comboBoxRole.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -139,7 +139,7 @@ public class ContactsJ extends JFrame {
 							.addComponent(lblContacts, GroupLayout.PREFERRED_SIZE, 235, GroupLayout.PREFERRED_SIZE))
 						.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 513, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(listContacts, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
+							//.addComponent(listContacts, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE)
 							.addGap(36)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
@@ -148,16 +148,16 @@ public class ContactsJ extends JFrame {
 								.addComponent(textFieldPhoneNumber, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
+								//.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+								//.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnAddContact, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+							//.addComponent(btnAddContact, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnEditContact, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnDeleteContact, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(32, Short.MAX_VALUE))
-		);
+		)));
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
@@ -168,7 +168,7 @@ public class ContactsJ extends JFrame {
 					.addComponent(separator_1_1, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
 					.addGap(34)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(listContacts, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
+						//.addComponent(listContacts, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
@@ -182,16 +182,16 @@ public class ContactsJ extends JFrame {
 							.addGap(11)
 							.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
-							.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							//.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
-							.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)))
+							//.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)))
 					.addGap(42)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAddContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+						//.addComponent(btnAddContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnEditContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnDeleteContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
 					.addGap(82))
-		);
+		)));
 		contentPane.setLayout(gl_contentPane);
 	}
 
