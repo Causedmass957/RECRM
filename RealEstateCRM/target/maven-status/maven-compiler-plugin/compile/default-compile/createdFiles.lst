@@ -15,6 +15,7 @@ com\example\utils\ButtonEditor.class
 views\Login.class
 views\MemoDetailsJ$1.class
 com\example\model\User.class
+views\ContactsJ$2$1.class
 views\MemosJ$3.class
 views\AllContacts$2.class
 views\RegisterJ$2.class

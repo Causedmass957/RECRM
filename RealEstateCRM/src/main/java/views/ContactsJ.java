@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.example.model.Contact;
 import com.example.utils.Session;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,7 +24,12 @@ import javax.swing.JComboBox;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
+import java.net.HttpURLConnection;
+import java.time.ZoneId;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class ContactsJ extends JFrame {
@@ -33,6 +39,10 @@ public class ContactsJ extends JFrame {
 	private JTextField textFieldEmail;
 	private JTextField textFieldPhoneNumber;
 	private JTextField textFieldName;
+	private JDateChooser dateChooser;
+	
+	private boolean isEditMode = false;
+
 
 	
 	/**
@@ -51,9 +61,10 @@ public class ContactsJ extends JFrame {
 		setContentPane(contentPane);
 		
 		//click event - delete contact
-		JButton btnDeleteContact = new JButton("Delete Contact");
+		JButton btnDeleteContact = new JButton("All Contacts");
 		btnDeleteContact.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Session.navigateTo(new AllContacts());
 			}
 		});
 		btnDeleteContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -65,15 +76,7 @@ public class ContactsJ extends JFrame {
 		//	}
 		//});
 		//btnAddContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
-		//click event - edit contact
-		JButton btnEditContact = new JButton("Edit Contact");
-		btnEditContact.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnEditContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
+						
 		JLabel lblContacts = new JLabel("Contact");
 		lblContacts.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContacts.setFont(new Font("Tahoma", Font.BOLD, 30));
@@ -89,7 +92,7 @@ public class ContactsJ extends JFrame {
 		
 		textFieldEmail = new JTextField();
 		textFieldEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textFieldEmail.setEditable(false);
+		textFieldEmail.setEnabled(false);
 		textFieldEmail.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
@@ -97,7 +100,7 @@ public class ContactsJ extends JFrame {
 		
 		textFieldPhoneNumber = new JTextField();
 		textFieldPhoneNumber.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textFieldPhoneNumber.setEditable(false);
+		textFieldPhoneNumber.setEnabled(false);
 		textFieldPhoneNumber.setColumns(10);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number");
@@ -105,25 +108,65 @@ public class ContactsJ extends JFrame {
 		
 		textFieldName = new JTextField();
 		textFieldName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textFieldName.setEditable(false);
+		textFieldName.setEnabled(false);
 		textFieldName.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("Name");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
-		if (contact != null) {
-	        // Edit mode
-	        textFieldName.setText(contact.getContactName());
-	        textFieldEmail.setText(contact.getContactEmail());
-	        textFieldPhoneNumber.setText(contact.getContactPhone());
-	        Session.setActiveContactId(contact.getContactId());
-	    } else {
-	        // Create mode
-	        textFieldName.setEditable(true);
-	        textFieldEmail.setEditable(true);
-	        textFieldPhoneNumber.setEditable(true);
-	        Session.setActiveContactId(-1); // no ID yet
-	    }
+		JLabel lblDob = new JLabel("Dat of birth");
+		dateChooser = new JDateChooser();
+		dateChooser.setDateFormatString("yyyy-MM-dd");
+		dateChooser.setEnabled(false);
+		
+		setContactMode(contact);//click event - edit contact
+
+		JButton btnEditContact = new JButton();
+		if(contact != null) {
+			isEditMode = true;
+			btnEditContact.setText("Edit Contact");
+		} else {
+			btnEditContact.setText("Save Contact");
+		}
+				
+		btnEditContact.addActionListener(e -> {
+		    if (!isEditMode) {
+		        setContactMode(null); // enable fields for editing
+		        btnEditContact.setText("Confirm Contact");
+		        isEditMode = true;
+		    } else {
+		        try {
+		            HttpURLConnection con;
+		            if (contact == null) {
+		                con = Session.createConnection("http://localhost:9015/contact/" + Session.getLoggedInUser(), "POST");
+		            } else {
+		                con = Session.createConnection("http://localhost:9015/contact/edit/contact/" + contact.getContactId(), "PUT");
+		            }
+
+		            con.setDoOutput(true);
+		            String jsonBody = setContactJson(textFieldName.getText(), textFieldPhoneNumber.getText(), dateChooser.getDate(), textFieldEmail.getText());
+
+		            try (java.io.OutputStream os = con.getOutputStream()) {
+		                byte[] input = jsonBody.getBytes("utf-8");
+		                os.write(input, 0, input.length);
+		            }
+
+		            int code = con.getResponseCode();
+		            if (code == 201 || code == 202) {
+		                JOptionPane.showMessageDialog(null, "Contact saved");
+		                Session.navigateTo(new AllContacts());
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Contact not saved");
+		            }
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		        isEditMode = false;
+		        btnEditContact.setText("Edit Contact");
+		    }
+		});
+		      
+		btnEditContact.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		//JComboBox comboBoxRole = new JComboBox();
 		//comboBoxRole.setToolTipText("");
@@ -148,6 +191,8 @@ public class ContactsJ extends JFrame {
 								.addComponent(textFieldPhoneNumber, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDob, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
+								.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
 								//.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
 								//.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -182,17 +227,43 @@ public class ContactsJ extends JFrame {
 							.addGap(11)
 							.addComponent(textFieldEmail, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
-							//.addComponent(lblRole, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDob, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
 							.addGap(11)
-							//.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(dateChooser, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)))
 					.addGap(42)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						//.addComponent(btnAddContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnEditContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnDeleteContact, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
 					.addGap(82))
-		)));
+		);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public void setContactMode(Contact contact) {
+		if(contact == null) {
+			textFieldName.setEnabled(true);
+	        textFieldEmail.setEnabled(true);
+	        textFieldPhoneNumber.setEnabled(true);
+	        dateChooser.setEnabled(true);
+		} else if (contact != null) { //view
+	        textFieldName.setText(contact.getContactName());
+	        textFieldEmail.setText(contact.getContactEmail());
+	        textFieldPhoneNumber.setText(contact.getContactPhone());
+	        dateChooser.setDate(Date.from(contact.getDob().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+	        Session.setActiveContactId(contact.getContactId());
+		}
+	}
+	
+	public String setContactJson(String contactName, String phone, Date dob, String email) {
+		String jsonObject = "{"
+                + "\"contactName\": \"" + contactName + "\","
+                + "\"dob\": \"" + dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\"," //backend only supports localdate objects
+                + "\"contactPhone\": \"" + phone + "\","
+                + "\"contactEmail\": \"" + email + "\""
+                + "}";;
+		
+		return jsonObject;
 	}
 
 }
