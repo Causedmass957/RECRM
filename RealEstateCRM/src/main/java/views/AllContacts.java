@@ -39,7 +39,7 @@ public class AllContacts extends JFrame{
 	public AllContacts() {
 		setTitle("All Contacts");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 400);
+        setBounds(100, 100, 600, 600);
 
         setJMenuBar(MenuNavigation.createMenuBar());
 
@@ -164,26 +164,26 @@ public class AllContacts extends JFrame{
                         .addComponent(lblTitle)
                         .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 540, GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(20, Short.MAX_VALUE))
-                .addComponent(btnCreateContact, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createSequentialGroup()
+                	    .addGap(0, 20, Short.MAX_VALUE)
+                	    .addComponent(btnCreateContact)
+                	    .addGap(0, 20, Short.MAX_VALUE))
+
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(20)
-                    .addComponent(lblTitle)
-                    .addGap(20)
-                    .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(50, Short.MAX_VALUE))
-                .addGap(20)
-                .addComponent(btnCreateContact, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE) // <-- Added this line
-        );
+        	    layout.createSequentialGroup()
+        	        .addGap(20)
+        	        .addComponent(lblTitle)
+        	        .addGap(20)
+        	        .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+        	        .addGap(20)
+        	        .addComponent(btnCreateContact, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+        	        .addContainerGap(30, Short.MAX_VALUE)
+        	);
+
 
         contentPane.setLayout(layout);
 	}
 
-	private JButton createEventButton() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
