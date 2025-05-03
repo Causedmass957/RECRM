@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -110,7 +111,7 @@ public class AllContacts extends JFrame{
             });
 
             deleteButton.addActionListener(e -> {
-                // Delete logic
+               
             });
 
             model.addRow(new Object[]{
@@ -140,7 +141,32 @@ public class AllContacts extends JFrame{
         contactsTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JCheckBox(), (rowData) -> {
         	int rowIndex = finalContactsTable.getSelectedRow();
             Contact selected = finalContacts.get(rowIndex);
-            
+
+            int confirmed = JOptionPane.showConfirmDialog(
+                null,
+                "Are you sure you want to delete this contact?",
+                "Confirm Deletion",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirmed == JOptionPane.YES_OPTION) {
+                try {
+                    HttpURLConnection con = Session.createConnection(
+                        "http://localhost:9015/contact/" + selected.getContactId(),
+                        "DELETE"
+                    );
+                    int code = con.getResponseCode();
+                    if (code == 201) {
+                        JOptionPane.showMessageDialog(null, "Contact deleted successfully.");
+                        Session.navigateTo(new AllContacts()); // refresh page
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to delete contact.");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error while deleting contact.");
+                }
+            }
         }));
         add(scrollPane, BorderLayout.CENTER);
         
