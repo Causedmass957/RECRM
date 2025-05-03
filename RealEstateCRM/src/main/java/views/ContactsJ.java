@@ -123,7 +123,7 @@ public class ContactsJ extends JFrame {
 
 		JButton btnEditContact = new JButton();
 		if(contact != null) {
-			isEditMode = true;
+			isEditMode = false;
 			btnEditContact.setText("Edit Contact");
 		} else {
 			btnEditContact.setText("Save Contact");
@@ -131,20 +131,20 @@ public class ContactsJ extends JFrame {
 				
 		btnEditContact.addActionListener(e -> {
 		    if (!isEditMode) {
-		        setContactMode(null); // enable fields for editing
+		    	enableEditFields(); // enable fields for editing
 		        btnEditContact.setText("Confirm Contact");
 		        isEditMode = true;
 		    } else {
 		        try {
+		        	String jsonBody = new String();
 		            HttpURLConnection con;
 		            if (contact == null) {
 		                con = Session.createConnection("http://localhost:9015/contact/" + Session.getLoggedInUser(), "POST");
+			            jsonBody = setContactJson( textFieldName.getText(), textFieldPhoneNumber.getText(), dateChooser.getDate(), textFieldEmail.getText());
 		            } else {
-		                con = Session.createConnection("http://localhost:9015/contact/edit/contact/" + contact.getContactId(), "PUT");
-		            }
-
-		            con.setDoOutput(true);
-		            String jsonBody = setContactJson(textFieldName.getText(), textFieldPhoneNumber.getText(), dateChooser.getDate(), textFieldEmail.getText());
+		                con = Session.createConnection("http://localhost:9015/contact/edit/contact/"+ Session.getLoggedInUser() + "/" + contact.getContactId(), "PUT"); con.setDoOutput(true);
+			            jsonBody = setContactJsonEdit(contact.getContactId(), textFieldName.getText(), textFieldPhoneNumber.getText(), dateChooser.getDate(), textFieldEmail.getText());
+		            }		           
 
 		            try (java.io.OutputStream os = con.getOutputStream()) {
 		                byte[] input = jsonBody.getBytes("utf-8");
@@ -240,6 +240,13 @@ public class ContactsJ extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	private void enableEditFields() {
+		textFieldName.setEnabled(true);
+	    textFieldEmail.setEnabled(true);
+	    textFieldPhoneNumber.setEnabled(true);
+	    dateChooser.setEnabled(true);		
+	}
+
 	public void setContactMode(Contact contact) {
 		if(contact == null) {
 			textFieldName.setEnabled(true);
@@ -257,6 +264,18 @@ public class ContactsJ extends JFrame {
 	
 	public String setContactJson(String contactName, String phone, Date dob, String email) {
 		String jsonObject = "{"
+                + "\"contactName\": \"" + contactName + "\","
+                + "\"dob\": \"" + dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\"," //backend only supports localdate objects
+                + "\"contactPhone\": \"" + phone + "\","
+                + "\"contactEmail\": \"" + email + "\""
+                + "}";;
+		
+		return jsonObject;
+	}
+	
+	public String setContactJsonEdit(int id,String contactName, String phone, Date dob, String email) {
+		String jsonObject = "{"
+                + "\"contactId\": \"" + id + "\","
                 + "\"contactName\": \"" + contactName + "\","
                 + "\"dob\": \"" + dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate() + "\"," //backend only supports localdate objects
                 + "\"contactPhone\": \"" + phone + "\","
