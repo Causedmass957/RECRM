@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.example.repository.MemoRepo;
 public class MemoService {
 	
 	private MemoRepo mRepo;
+	private UserService uServe = new UserService();
 
 	public MemoService() {
 		super();
@@ -35,5 +38,9 @@ public class MemoService {
 	
 	public void saveMemo(Memo memo) {
 		mRepo.save(memo);
+	}
+	
+	public List<Memo> getMemosByUserUserName(String username) {
+		return mRepo.findByUser(uServe.getUserByUsername(username));
 	}
 }

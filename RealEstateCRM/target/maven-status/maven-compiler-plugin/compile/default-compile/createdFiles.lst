@@ -3,6 +3,7 @@ com\example\model\Contact.class
 com\example\demo\RealEstateCrmApplication.class
 views\AllContacts$1.class
 views\Login$2.class
+com\example\controller\MemoController.class
 com\example\repository\MemoRepo.class
 com\example\utils\JacksonConfig.class
 views\MemosJ$5.class

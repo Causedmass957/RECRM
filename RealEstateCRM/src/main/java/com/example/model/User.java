@@ -44,6 +44,10 @@ public class User {
 	@Column(nullable=true)
 	private List<Contact> contactList;
 	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy= "user")
+	@Column(nullable=true)
+	private List<Memo> memoList;
+	
 	public User() {
 		
 	}

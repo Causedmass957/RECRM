@@ -47,8 +47,7 @@ public class ContactController {
 		
 		cServe.saveContact(mockContact1);
 		
-		return ResponseEntity.status(201).body("Success");
-		
+		return ResponseEntity.status(201).body("Success");		
 	}
 	
 	//get single contact by unique id
@@ -91,14 +90,15 @@ public class ContactController {
     "contactName": "Christina O'Neal",
     "dob": "1968-11-09",
     "contactPhone": "209-321-6122",
-    "contactEmail": "realtoroneal@gmail.com"
+    "contactEmail": "realtoroneal@gmail.com",
+    "userName": //user associated with contact
     */
-	@PutMapping(value="/edit/contact/{id}")
-	public ResponseEntity<String> editContact(@PathVariable(name="id") int contactId) {
-		Optional<Contact> contactOpt = Optional.ofNullable(cServe.getContactById(contactId));
+	@PutMapping(value="/edit/contact/{username}/{id}")
+	public ResponseEntity<String> editContact(@PathVariable(name="id") int id, @RequestBody Contact contact, @PathVariable(name="username") String username) {
+		Optional<Contact> contactOpt = Optional.ofNullable(cServe.getContactById(id));
 		System.out.println(contactOpt.get());
 		if(contactOpt.isPresent()) {
-			Contact tempContact = new Contact(contactOpt.get().getContactId(), contactOpt.get().getContactName(), contactOpt.get().getContactEmail(), contactOpt.get().getDob(), contactOpt.get().getContactPhone(), contactOpt.get().getUser());
+			Contact tempContact = new Contact(id, contact.getContactName(), contact.getContactEmail(), contact.getDob(), contact.getContactPhone(), uServe.getUserByUsername(username));
 			cServe.saveContact(tempContact);
 			return ResponseEntity.status(201).body("Success");
 		}
@@ -109,8 +109,6 @@ public class ContactController {
 	public ResponseEntity<String> deleteContact(@PathVariable(name="id") int contactId) {
 		Contact contactDel = cServe.getContactById(contactId);
 		System.out.println(contactDel.toString());
-		if(contactDel == null) 
-			return ResponseEntity.badRequest().build();
 		cServe.removeContact(contactDel);
 		System.out.println("contact deleted");
 		return ResponseEntity.status(201).body("Success");
