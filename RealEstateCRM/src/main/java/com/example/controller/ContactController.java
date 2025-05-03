@@ -108,9 +108,11 @@ public class ContactController {
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteContact(@PathVariable(name="id") int contactId) {
 		Contact contactDel = cServe.getContactById(contactId);
+		System.out.println(contactDel.toString());
 		if(contactDel == null) 
 			return ResponseEntity.badRequest().build();
 		cServe.removeContact(contactDel);
+		System.out.println("contact deleted");
 		return ResponseEntity.status(201).body("Success");
 	}
 
