@@ -15,15 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.model.Contact;
 import com.example.model.Memo;
 import com.example.model.User;
 import com.example.service.MemoService;
 import com.example.service.UserService;
 
-@ComponentScan(basePackages = {
-	    "com.technicalkeeda"
-	})
+
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value="/memo")
@@ -49,21 +46,21 @@ public class MemoController {
 	
 	//get single contact by unique id
 	@GetMapping(value="/{id}")
-	public ResponseEntity<Memo> getContact(@PathVariable(name="id") int memoId) {
+	public ResponseEntity<Memo> getMemo(@PathVariable(name="id") int memoId) {
 		return ResponseEntity.status(201).body(mServe.getMemoById(memoId));
 	}
 	
 	//get all contacts joined by user
 	@GetMapping(value="/all/{username}")
-	public ResponseEntity<List<Memo>> getAllContacts(@PathVariable(name="username") String username) {
-		List<Memo> memoList = mServe.getMemosByUserUserName(username);
+	public ResponseEntity<List<Memo>> getAllMemos(@PathVariable(name="username") String username) {
+		List<Memo> memoList = mServe.getMemosByUserUserName(uServe.getUserByUsername(username));
 		return ResponseEntity.status(201).body(memoList);		
 	}
 	
 	//add new contact to specified user via username
 		/*JSON format
 	    "memoTitle": "Christina O'Neal",
-	    "dob": "1968-11-09"
+	    "memoContent": "1968-11-09"
 	    */
 	@PostMapping(value="/{username}")
 	public ResponseEntity<String> addNewMemo(@RequestBody Memo memo, @PathVariable(name="username") String username) {
@@ -78,13 +75,13 @@ public class MemoController {
 		return ResponseEntity.status(202).body("Success");
 	}
 	
-	@PutMapping(value="/edit/contact/{id}")
-	public ResponseEntity<String> editContact(@PathVariable(name="id") int memoId) {
+	@PutMapping(value="/edit/memo/{username}/{id}")
+	public ResponseEntity<String> editMemo(@PathVariable(name="id") int memoId, @RequestBody Memo memo, @PathVariable(name="username") String username) {
 		Optional<Memo> memoOpt = Optional.ofNullable(mServe.getMemoById(memoId));
 		System.out.println(memoOpt.get());
 		if(memoOpt.isPresent()) {
-			//Memo tempMemo = 
-			//mServe.saveMemo();
+			Memo tempMemo = new Memo(memoId, memo.getMemoTitle(), memo.getMemoContent(), uServe.getUserByUsername(username));
+			mServe.saveMemo(tempMemo);
 			return ResponseEntity.status(201).body("Success");
 		}
 		return ResponseEntity.badRequest().build();
