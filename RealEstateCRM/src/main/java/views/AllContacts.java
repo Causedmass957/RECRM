@@ -138,6 +138,7 @@ public class AllContacts extends JFrame{
             Session.setActiveContactId(selected.getContactId());
             Session.navigateTo(new ContactsJ(selected));
         }));
+        //DELETE EVENT RIGHT HERE
         contactsTable.getColumn("Delete").setCellEditor(new ButtonEditor(new JCheckBox(), (rowData) -> {
         	int rowIndex = finalContactsTable.getSelectedRow();
             Contact selected = finalContacts.get(rowIndex);

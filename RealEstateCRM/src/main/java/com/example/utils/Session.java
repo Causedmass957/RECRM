@@ -16,7 +16,16 @@ public class Session {
     private static Stack<JFrame> forwardStack = new Stack<>();
 	private static JFrame currentFrame;
 	private static int activeContactId; 
+	private static int activeMemo;
 	
+	public static int getActiveMemo() {
+		return activeMemo;
+	}
+
+	public static void setActiveMemo(int activeMemo) {
+		Session.activeMemo = activeMemo;
+	}
+
 	public static void setLoggedInUser(String username) {
         loggedInUser = username;
     }
