@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest(classes = User.class)
-class MemoTests {
+class UserTests {
 
 	private int testUserUserId = 123;
 	private String testUserUsername = "JT";
