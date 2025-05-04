@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.example.utils.Session;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuBar;
@@ -17,6 +20,8 @@ import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MemoDetailsJ extends JFrame {
 
@@ -60,7 +65,14 @@ public class MemoDetailsJ extends JFrame {
 
 		setContentPane(contentPane);
 		
+		//click event: save memo
 		JButton btnSaveMemo = new JButton("Save Memo");
+		btnSaveMemo.setVisible(false);
+		btnSaveMemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//code goes here - replace the memo in the database with updated information
+			}
+		});
 		btnSaveMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		JLabel lblMemoDetails = new JLabel("Memo Details");
@@ -88,17 +100,14 @@ public class MemoDetailsJ extends JFrame {
 		textPaneMemoContent.setEditable(false);
 		
 		textFieldMemoTitle = new JTextField();
-		textFieldMemoTitle.setEnabled(false);
 		textFieldMemoTitle.setEditable(false);
 		textFieldMemoTitle.setColumns(10);
 		
 		textFieldCreatedFor = new JTextField();
-		textFieldCreatedFor.setEnabled(false);
 		textFieldCreatedFor.setEditable(false);
 		textFieldCreatedFor.setColumns(10);
 		
 		textFieldCreatedBy = new JTextField();
-		textFieldCreatedBy.setEnabled(false);
 		textFieldCreatedBy.setEditable(false);
 		textFieldCreatedBy.setColumns(10);
 		
@@ -107,10 +116,35 @@ public class MemoDetailsJ extends JFrame {
 		textFieldMemoID.setEditable(false);
 		textFieldMemoID.setColumns(10);
 		
+		//click event: Edit memo
 		JButton btnEditMemo = new JButton("Edit Memo");
+		btnEditMemo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// set text fields as editable except memoID 
+				//(Don't want it changed, and automatically generated)
+				//Save memo button appears when edit button is clicked
+				btnSaveMemo.setVisible(true);
+				textFieldCreatedBy.setEditable(true);
+				textFieldCreatedFor.setEditable(true);
+				textFieldMemoTitle.setEditable(true);
+				textPaneMemoContent.setEditable(true);
+				
+			}
+		});
 		btnEditMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
+		//click event: Exit button
 		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//code goes here
+				MemosJ memosj = new MemosJ();
+				Session.navigateTo(memosj);
+				
+			}
+		});
 		btnExit.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
