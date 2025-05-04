@@ -33,8 +33,8 @@ public class ContactService {
 		cRepo.delete(contact);
 	}
 	
-	public LocalDate getDob(Contact contact) {
-		return contact.getDob();
+	public LocalDate getContactDOB(Contact contact) {
+		return contact.getContactDOB();
 	}
 	
 	public String getContactName(Contact contact) {
