@@ -68,6 +68,10 @@ public class MemosJ extends JFrame {
 		JButton btnAddMemo = new JButton("Add Memo");
 		btnAddMemo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				MemoDetailsJ memodetailsJ = new MemoDetailsJ();
+				Session.navigateTo(memodetailsJ);
+				
 			}
 		});
 		btnAddMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
