@@ -6,7 +6,6 @@ views\Login$2.class
 com\example\controller\MemoController.class
 com\example\repository\MemoRepo.class
 com\example\utils\JacksonConfig.class
-views\MemosJ$5.class
 views\HomeJ$1.class
 views\MenuNavigation.class
 com\example\controller\UserController.class
@@ -16,7 +15,6 @@ com\example\utils\ButtonEditor.class
 views\Login.class
 views\MemoDetailsJ$1.class
 com\example\model\User.class
-views\MemosJ$3.class
 views\AllContacts$2.class
 views\RegisterJ$2.class
 com\example\repository\UserRepo.class
@@ -31,9 +29,7 @@ views\MemoDetailsJ.class
 views\Login$3.class
 com\example\controller\ContactController.class
 views\Login$4.class
-views\MemosJ$4.class
 com\example\utils\Session.class
-views\MemosJ$2.class
 com\example\service\UserService.class
 views\RegisterJ$1.class
 views\ContactsJ$1.class

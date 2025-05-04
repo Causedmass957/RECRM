@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.model.Memo;
+import com.example.model.User;
 import com.example.repository.MemoRepo;
+import com.example.repository.UserRepo;
 
 @Service
 public class MemoService {
 	
 	private MemoRepo mRepo;
-	private UserService uServe = new UserService();
 
 	public MemoService() {
 		super();
@@ -40,7 +41,7 @@ public class MemoService {
 		mRepo.save(memo);
 	}
 	
-	public List<Memo> getMemosByUserUserName(String username) {
-		return mRepo.findByUser(uServe.getUserByUsername(username));
+	public List<Memo> getMemosByUserUserName(User user) {
+		return mRepo.findByUser(user);
 	}
 }

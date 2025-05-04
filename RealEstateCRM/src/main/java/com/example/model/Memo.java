@@ -38,6 +38,10 @@ public class Memo {
 	@JoinColumn(name="user_fk")
 	private User user;
 	
+	public Memo() {
+		super();
+	}
+	
 	public Memo(int memoId, String memoTitle, String memoContent) {
 		super();
 		this.memoId = memoId;
