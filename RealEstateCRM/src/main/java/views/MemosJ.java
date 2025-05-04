@@ -36,7 +36,7 @@ import java.awt.event.ActionEvent;
 public class MemosJ extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JList<String> listMemo;
+	private JList<Memo> listMemo;
 	private List<Memo> memos = new ArrayList<>();
 
 	private JPanel contentPane;
@@ -69,7 +69,7 @@ public class MemosJ extends JFrame {
 		btnAddMemo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				MemoDetailsJ memodetailsJ = new MemoDetailsJ();
+				MemoDetailsJ memodetailsJ = new MemoDetailsJ(null);
 				Session.navigateTo(memodetailsJ);
 				
 			}
@@ -83,6 +83,16 @@ public class MemosJ extends JFrame {
 		JLabel lblMemos = new JLabel("Memos");
 		lblMemos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMemos.setFont(new Font("Tahoma", Font.BOLD, 30));
+		listMemo.setCellRenderer((list, value, index, isSelected, cellHasFocus) -> {
+		    JLabel label = new JLabel(value.getMemoTitle());
+		    if (isSelected) {
+		        label.setOpaque(true);
+		        label.setBackground(list.getSelectionBackground());
+		        label.setForeground(list.getSelectionForeground());
+		    }
+		    return label;
+		});
+
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 		    gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -117,6 +127,15 @@ public class MemosJ extends JFrame {
 
 		contentPane.setLayout(gl_contentPane);
 		loadMemos(Session.getLoggedInUser());
+		listMemo.addListSelectionListener(e -> {
+		    if (!e.getValueIsAdjusting()) {
+		        Memo selectedMemo = listMemo.getSelectedValue();
+		        if (selectedMemo != null) {
+		            MemoDetailsJ detailsPage = new MemoDetailsJ(selectedMemo); // pass memo
+		            Session.navigateTo(detailsPage);
+		        }
+		    }
+		});		
 	}
 	
 	private void loadMemos(String username) {
@@ -141,9 +160,9 @@ public class MemosJ extends JFrame {
 	            Memo[] memoArray = mapper.readValue(response.toString(), Memo[].class);
 	            memos = Arrays.asList(memoArray);
 
-	            DefaultListModel<String> model = new DefaultListModel<>();
+	            DefaultListModel<Memo> model = new DefaultListModel<>();
 	            for (Memo memo : memos) {
-	                model.addElement(memo.getMemoTitle());
+	                model.addElement(memo);
 	            }
 
 	            listMemo.setModel(model);
