@@ -97,11 +97,11 @@ public class Contact {
 		this.email = email;
 	}
 
-	public LocalDate getDob() {
+	public LocalDate getContactDOB() {
 		return dob;
 	}
 
-	public void setDob(LocalDate dob) {
+	public void setContactDOB(LocalDate dob) {
 		this.dob = dob;
 	}
 

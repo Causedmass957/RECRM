@@ -98,7 +98,7 @@ public class ContactController {
 		Optional<Contact> contactOpt = Optional.ofNullable(cServe.getContactById(id));
 		System.out.println(contactOpt.get());
 		if(contactOpt.isPresent()) {
-			Contact tempContact = new Contact(id, contact.getContactName(), contact.getContactEmail(), contact.getDob(), contact.getContactPhone(), uServe.getUserByUsername(username));
+			Contact tempContact = new Contact(id, contact.getContactName(), contact.getContactEmail(), contact.getContactDOB(), contact.getContactPhone(), uServe.getUserByUsername(username));
 			cServe.saveContact(tempContact);
 			return ResponseEntity.status(201).body("Success");
 		}

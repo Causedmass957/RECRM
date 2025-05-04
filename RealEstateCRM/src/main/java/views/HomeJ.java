@@ -112,7 +112,7 @@ public class HomeJ extends JFrame {
 
 		int yPosition = 200;
 		for (Contact contact : upcomingBirthdays) {
-		    JLabel birthdayLabel = new JLabel(contact.getContactName() + " - Birthday: " + contact.getDob());
+		    JLabel birthdayLabel = new JLabel(contact.getContactName() + " - Birthday: " + contact.getContactDOB());
 		    birthdayLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		    birthdayLabel.setBounds(20, yPosition, 400, 30);
 		    contentPane.add(birthdayLabel);
@@ -152,8 +152,8 @@ public class HomeJ extends JFrame {
 	    LocalDate now = LocalDate.now();
 
 	    for (Contact contact : allContacts) {
-	        if (contact.getDob() != null) {
-	            LocalDate birthdayThisYear = contact.getDob().withYear(now.getYear());
+	        if (contact.getContactDOB() != null) {
+	            LocalDate birthdayThisYear = contact.getContactDOB().withYear(now.getYear());
 	            long daysBetween = ChronoUnit.DAYS.between(now, birthdayThisYear);
 
 	            if (daysBetween >= 0 && daysBetween <= 30) {
