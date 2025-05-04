@@ -136,7 +136,29 @@ public class MemoDetailsJ extends JFrame {
 		}
 		textFieldMemoTitle.setColumns(10);
 		
-		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnDelete.setVisible(memo != null); // only show if memo exists
+
+		btnDelete.addActionListener(e -> {
+		    int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this memo?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+		    if (confirm == JOptionPane.YES_OPTION) {
+		        try {
+		            HttpURLConnection con = Session.createConnection("http://localhost:9015/memo/" + memo.getMemoId(), "DELETE");
+		            int code = con.getResponseCode();
+		            if (code == 200 || code == 201) {
+		                JOptionPane.showMessageDialog(null, "Memo deleted");
+		                Session.navigateTo(new MemosJ());
+		            } else {		            	
+		                JOptionPane.showMessageDialog(null, "Failed to delete memo");
+		            }
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "Error occurred while deleting memo");
+		        }
+		    }
+		});
+
 				
 		
 		//click event: Exit button
@@ -177,6 +199,8 @@ public class MemoDetailsJ extends JFrame {
 		                    .addGap(70)
 		                    .addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
 		                    .addGap(6)
+		                    .addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+		                    .addGap(6)
 		                    .addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)))
 		            .addContainerGap(20, Short.MAX_VALUE))
 		);
@@ -200,6 +224,7 @@ public class MemoDetailsJ extends JFrame {
 		            .addGap(34)
 		            .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		                .addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+		                .addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 		                .addComponent(btnExit, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE))
 		            .addContainerGap())
 		);

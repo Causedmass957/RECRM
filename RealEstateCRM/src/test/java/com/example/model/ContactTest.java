@@ -11,7 +11,7 @@ class ContactTests {
 	private int testContactId = 123;
 	private String testContactName = "John Test";
 	private String testContactEmail = "testEmail@test.com";
-	private LocalDate testContactDOB = LocalDate.now();
+	private LocalDate testContactDOB = LocalDate.of(2020, 5, 4);
 	private String testContactPhone = "727-555-1212";
 	
 	private User testUser = new User(12, "Joey User", "password1", "Seller", "JoeyU@test.com");
