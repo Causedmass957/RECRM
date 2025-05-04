@@ -73,7 +73,7 @@ public class ContactController {
     */
 	@PostMapping(value="/{username}")
 	public ResponseEntity<String> addNewContact(@RequestBody Contact contact, @PathVariable(name="username") String username) {
-		System.out.println(contact);
+		//System.out.println(contact);
 		User contactOwner = uServe.getUserByUsername(username);
 		Optional<Contact> contactOpt = Optional.ofNullable(contact);
 		contactOpt.get().setUser(contactOwner);
@@ -96,7 +96,7 @@ public class ContactController {
 	@PutMapping(value="/edit/contact/{username}/{id}")
 	public ResponseEntity<String> editContact(@PathVariable(name="id") int id, @RequestBody Contact contact, @PathVariable(name="username") String username) {
 		Optional<Contact> contactOpt = Optional.ofNullable(cServe.getContactById(id));
-		System.out.println(contactOpt.get());
+		//System.out.println(contactOpt.get());
 		if(contactOpt.isPresent()) {
 			Contact tempContact = new Contact(id, contact.getContactName(), contact.getContactEmail(), contact.getContactDOB(), contact.getContactPhone(), uServe.getUserByUsername(username));
 			cServe.saveContact(tempContact);
@@ -108,7 +108,7 @@ public class ContactController {
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteContact(@PathVariable(name="id") int contactId) {
 		Contact contactDel = cServe.getContactById(contactId);
-		System.out.println(contactDel.toString());
+		//System.out.println(contactDel.toString());
 		cServe.removeContact(contactDel);
 		System.out.println("contact deleted");
 		return ResponseEntity.status(201).body("Success");

@@ -7,7 +7,7 @@ import com.example.utils.Session;
 
 public class MenuNavigation {
     public static JMenuBar createMenuBar() {
-    	System.out.println("Creating menu bar here, works");
+    	//System.out.println("Creating menu bar here, works");
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("RECRM");

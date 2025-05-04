@@ -44,4 +44,8 @@ public class MemoService {
 	public List<Memo> getMemosByUserUserName(User user) {
 		return mRepo.findByUser(user);
 	}
+	
+	public void removeMemo(Memo memo) {
+		mRepo.delete(memo);
+	}
 }

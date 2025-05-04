@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.model.Contact;
 import com.example.model.Memo;
 import com.example.model.User;
 import com.example.service.MemoService;
@@ -64,7 +66,7 @@ public class MemoController {
 	    */
 	@PostMapping(value="/{username}")
 	public ResponseEntity<String> addNewMemo(@RequestBody Memo memo, @PathVariable(name="username") String username) {
-		System.out.println(memo);
+		//System.out.println(memo);
 		User memoOwner = uServe.getUserByUsername(username);
 		Optional<Memo> memoOpt = Optional.ofNullable(memo);
 		memoOpt.get().setUser(memoOwner);
@@ -78,13 +80,22 @@ public class MemoController {
 	@PutMapping(value="/edit/memo/{username}/{id}")
 	public ResponseEntity<String> editMemo(@PathVariable(name="id") int memoId, @RequestBody Memo memo, @PathVariable(name="username") String username) {
 		Optional<Memo> memoOpt = Optional.ofNullable(mServe.getMemoById(memoId));
-		System.out.println(memoOpt.get());
+		//System.out.println(memoOpt.get());
 		if(memoOpt.isPresent()) {
 			Memo tempMemo = new Memo(memoId, memo.getMemoTitle(), memo.getMemoContent(), uServe.getUserByUsername(username));
 			mServe.saveMemo(tempMemo);
 			return ResponseEntity.status(201).body("Success");
 		}
 		return ResponseEntity.badRequest().build();
+	}
+	
+	@DeleteMapping(value="/{id}")
+	public ResponseEntity<String> deleteMemo(@PathVariable(name="id") int memoId) {
+		Memo memoDel = mServe.getMemoById(memoId);
+		//System.out.println(memoDel.toString());
+		mServe.removeMemo(memoDel);
+		System.out.println("memo deleted");
+		return ResponseEntity.status(201).body("Success");
 	}
 
 }

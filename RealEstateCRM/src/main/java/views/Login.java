@@ -118,7 +118,7 @@ public class Login extends JFrame {
 				    // Create the JSON body
 				    String jsonInputString = String.format("{\"username\": \"%s\", \"password\": \"%s\"}", userName, passwordString);
 				    
-				    System.out.println("before send");
+				    //System.out.println("before send");
 
 				    // Write JSON to request body
 				    try (java.io.OutputStream os = con.getOutputStream()) {
@@ -128,7 +128,7 @@ public class Login extends JFrame {
 
 				    // Get response code
 				    int code = con.getResponseCode();
-				    System.out.println("after send");
+				    //System.out.println("after send");
 				    if (code == HttpURLConnection.HTTP_OK) {
 				    	Session.setLoggedInUser(userName);
 				        // Successful login

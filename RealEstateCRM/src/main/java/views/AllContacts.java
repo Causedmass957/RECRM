@@ -52,7 +52,7 @@ public class AllContacts extends JFrame{
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 30));
 
         JTable contactsTable = new JTable(); // You can set the model dynamically
-        System.out.println("in contacts view");
+        //System.out.println("in contacts view");
         
         
         List<Contact> contacts = new ArrayList();
@@ -82,7 +82,7 @@ public class AllContacts extends JFrame{
         	ex.printStackTrace();
         }
         
-        System.out.println(contacts.toString());
+        //System.out.println(contacts.toString());
         
         String[] columnNames = {"Name", "Email", "Phone", "DOB", "View", "Delete"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
@@ -124,7 +124,7 @@ public class AllContacts extends JFrame{
             });
         }
         
-        System.out.println("table should be visible");
+        //System.out.println("table should be visible");
         
         contactsTable = new JTable(model);
         final JTable finalContactsTable = contactsTable;
