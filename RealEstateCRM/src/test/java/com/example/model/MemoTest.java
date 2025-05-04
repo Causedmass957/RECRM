@@ -1,22 +1,10 @@
 package com.example.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @SpringBootTest(classes = Memo.class)
 class MemoTests {
@@ -46,7 +34,7 @@ class MemoTests {
 	@Test
 	void testSetGetContent() {
 		assertEquals(testMemoContent, testMemo.getMemoContent());
-		testMemo.setMemoTitle(testMemoContentToUpdate);
+		testMemo.setMemoContent(testMemoContentToUpdate);
 		assertEquals(testMemoContentToUpdate, testMemo.getMemoContent());
 	}
 
