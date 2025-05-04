@@ -257,7 +257,7 @@ public class ContactsJ extends JFrame {
 	        textFieldName.setText(contact.getContactName());
 	        textFieldEmail.setText(contact.getContactEmail());
 	        textFieldPhoneNumber.setText(contact.getContactPhone());
-	        dateChooser.setDate(Date.from(contact.getDob().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+	        dateChooser.setDate(Date.from(contact.getContactDOB().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	        Session.setActiveContactId(contact.getContactId());
 		}
 	}

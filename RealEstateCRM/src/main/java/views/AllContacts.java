@@ -93,7 +93,7 @@ public class AllContacts extends JFrame{
             data[i][0] = c.getContactName();
             data[i][1] = c.getContactEmail();
             data[i][2] = c.getContactPhone();
-            data[i][3] = c.getDob();
+            data[i][3] = c.getContactDOB();
         }
 
         contactsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -117,7 +117,7 @@ public class AllContacts extends JFrame{
             model.addRow(new Object[]{
                 c.getContactName(),
                 c.getContactEmail(),
-                c.getDob(),
+                c.getContactDOB(),
                 c.getContactPhone(),
                 viewButton,
                 deleteButton
