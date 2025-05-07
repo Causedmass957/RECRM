@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.model.Contact;
 import com.example.model.Memo;
+import com.example.model.MemoGroup;
 import com.example.model.User;
+import com.example.service.MemoGroupService;
 import com.example.service.MemoService;
 import com.example.service.UserService;
 
@@ -30,12 +33,14 @@ public class MemoController {
 	
 	UserService uServe;
 	MemoService mServe;
+	MemoGroupService mgServe;
 	
 	@Autowired
-	public MemoController(UserService uServe, MemoService mServe) {
+	public MemoController(UserService uServe, MemoService mServe, MemoGroupService mgServe) {
 		super();
 		this.uServe = uServe;
 		this.mServe = mServe;
+		this.mgServe = mgServe;
 	}
 	
 	@GetMapping(value="/init")
@@ -59,6 +64,26 @@ public class MemoController {
 		return ResponseEntity.status(201).body(memoList);		
 	}
 	
+	@GetMapping(value="/nogroup/{username}")
+	public ResponseEntity<List<Memo>> getAllMemosNoGroup(@PathVariable(name="username") String username) {
+		List<Memo> memoList = mServe.getMemosByUserUserName(uServe.getUserByUsername(username));
+		List<Memo> newList = new ArrayList();
+		for(Memo m : memoList) {
+			if(m.getMemoGroup() == null)
+				newList.add(m);
+			System.out.println(m);
+		}
+		
+		return ResponseEntity.status(201).body(newList);		
+	}
+	
+	@GetMapping(value="/group/{id}")
+	public ResponseEntity<List<Memo>> getMemosInGroup(@PathVariable(name="id") int id) {
+		List<Memo> groupList = mServe.getMemosInGroup(id);
+		return ResponseEntity.status(201).body(groupList);
+		
+	}
+	
 	//add new contact to specified user via username
 		/*JSON format
 	    "memoTitle": "Christina O'Neal",
@@ -77,17 +102,47 @@ public class MemoController {
 		return ResponseEntity.status(202).body("Success");
 	}
 	
-	@PutMapping(value="/edit/memo/{username}/{id}")
-	public ResponseEntity<String> editMemo(@PathVariable(name="id") int memoId, @RequestBody Memo memo, @PathVariable(name="username") String username) {
-		Optional<Memo> memoOpt = Optional.ofNullable(mServe.getMemoById(memoId));
-		//System.out.println(memoOpt.get());
-		if(memoOpt.isPresent()) {
-			Memo tempMemo = new Memo(memoId, memo.getMemoTitle(), memo.getMemoContent(), uServe.getUserByUsername(username));
-			mServe.saveMemo(tempMemo);
-			return ResponseEntity.status(201).body("Success");
-		}
-		return ResponseEntity.badRequest().build();
+	@PutMapping(value = "/edit/memo/{username}/{id}")
+	public ResponseEntity<String> editMemo(@PathVariable(name = "id") int memoId,
+	                                       @RequestBody Memo memo,
+	                                       @PathVariable(name = "username") String username) {
+	    // Fetch the existing memo
+	    Memo existingMemo = mServe.getMemoById(memoId);
+	    if (existingMemo == null) {
+	        return ResponseEntity.badRequest().body("Memo not found");
+	    }
+
+	    // Fetch the user based on the username
+	    User user = uServe.getUserByUsername(username);
+	    if (user == null) {
+	        return ResponseEntity.badRequest().body("User not found");
+	    }
+
+	    // Update all fields
+	    existingMemo.setMemoTitle(memo.getMemoTitle());
+	    existingMemo.setMemoContent(memo.getMemoContent());
+	    existingMemo.setUser(user); // Update the user
+
+	    // Handle memo group change
+	    if (memo.getMemoGroup().getId() == 0) {
+	        existingMemo.setMemoGroup(null);
+	    } else {
+	        MemoGroup group = mgServe.getGroupById(memo.getMemoGroup().getId());
+	        if (group == null) {
+	            return ResponseEntity.badRequest().body("MemoGroup not found");
+	        }
+	        existingMemo.setMemoGroup(group);
+	    }
+
+	    // Save the updated memo
+	    mServe.saveMemo(existingMemo);
+
+	    return ResponseEntity.status(201).body("Success");
 	}
+
+
+
+
 	
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteMemo(@PathVariable(name="id") int memoId) {
