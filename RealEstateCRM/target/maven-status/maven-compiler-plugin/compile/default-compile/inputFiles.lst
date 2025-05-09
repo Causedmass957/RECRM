@@ -1,14 +1,18 @@
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\ContactController.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\MemoController.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\MemoGroupController.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\controller\UserController.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\demo\RealEstateCrmApplication.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\Contact.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\Memo.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\MemoGroup.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\model\User.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\ContactRepo.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\MemoGroupRepo.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\MemoRepo.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\repository\UserRepo.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\ContactService.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\MemoGroupService.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\MemoService.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\service\UserService.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\com\example\utils\ButtonEditor.java
@@ -19,6 +23,8 @@ C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\ContactsJ.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\HomeJ.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\Login.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MemoDetailsJ.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MemoGroupJ.java
+C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MemoList.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MemosJ.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\MenuNavigation.java
 C:\CurrentProjects\RECRM\RECRM\RealEstateCRM\src\main\java\views\RegisterJ.java

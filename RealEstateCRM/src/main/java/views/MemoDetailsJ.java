@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,12 +8,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.example.model.Memo;
+import com.example.model.MemoGroup;
 import com.example.utils.Session;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JMenuBar;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -24,8 +29,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class MemoDetailsJ extends JFrame {
@@ -34,6 +43,7 @@ public class MemoDetailsJ extends JFrame {
 	private JPanel contentPane;
 	private JTextField textFieldMemoTitle;
 	private JTextPane textPaneMemoContent;
+	private JComboBox<MemoGroup> memoGroupComboBox;
 	
 	private boolean isEditMode = true;
 
@@ -41,6 +51,7 @@ public class MemoDetailsJ extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param lblMemoGroup 
 	 */
 	public MemoDetailsJ(Memo memo) {
 		setTitle("Memo Details");
@@ -60,13 +71,53 @@ public class MemoDetailsJ extends JFrame {
 		setContentPane(contentPane);
 		
 		//click event: save memo
-		JButton btnSaveMemo = new JButton();
+		JButton btnSaveMemo = new JButton();		
 		if(memo != null) {
 			isEditMode = false;
 			btnSaveMemo.setText("Edit");
 		} else {
 			btnSaveMemo.setText("Save");
 		}
+		memoGroupComboBox = new JComboBox<>();
+
+		// "None" option to remove the group
+		//memoGroupComboBox.addItem(null);
+		
+
+
+		// Load available groups (replace with your actual list)
+		//java.util.List<MemoGroup> groupList = Session.getMemoGroups(); // Or however you load them
+		try {
+		    HttpURLConnection con = Session.createConnection("http://localhost:9015/memogroup/" + Session.getLoggedInUser(), "GET");
+
+		    BufferedReader groupReader = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
+		    StringBuilder responseBuilder = new StringBuilder();
+		    String line;
+		    while ((line = groupReader.readLine()) != null) {
+		        responseBuilder.append(line);
+		    }
+		    groupReader.close();
+
+		    // Parse JSON array to list of MemoGroup
+		    ObjectMapper mapper = new ObjectMapper();
+		    List<MemoGroup> groupList = Arrays.asList(mapper.readValue(responseBuilder.toString(), MemoGroup[].class));
+
+		    // Add to combo box
+		    memoGroupComboBox.addItem(null); // for "None"
+		    for (MemoGroup group : groupList) {
+		        memoGroupComboBox.addItem(group);
+		    }
+
+		} catch (Exception ex) {
+		    ex.printStackTrace(); // or show a dialog
+		}
+		// Set selected value if editing
+		if (memo != null && memo.getMemoGroup() != null) {
+		    memoGroupComboBox.setSelectedItem(memo.getMemoGroup());
+		}
+
+		memoGroupComboBox.setEnabled(isEditMode); // Initially not editable
+
 		
 		btnSaveMemo.setVisible(true);
 		btnSaveMemo.addActionListener(e -> {
@@ -96,8 +147,10 @@ public class MemoDetailsJ extends JFrame {
 		                JOptionPane.showMessageDialog(null, "Memo saved");
 		                Session.navigateTo(new MemosJ());
 		            } else {
+		            	System.out.println(jsonBody);
 		                JOptionPane.showMessageDialog(null, "Memo not saved");
 		            }
+		            
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
 		        }
@@ -105,6 +158,8 @@ public class MemoDetailsJ extends JFrame {
 		        btnSaveMemo.setText("Edit");
 		    }
 		});
+		
+		
 		      
 		btnSaveMemo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
@@ -123,6 +178,10 @@ public class MemoDetailsJ extends JFrame {
 		
 		JLabel lblMemoContent = new JLabel("Memo Content:");
 		lblMemoContent.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+		JLabel lblMemoGroup = new JLabel("Memo Group:");
+		lblMemoGroup.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
 						
 		textFieldMemoTitle = memo != null ?  new JTextField(memo.getMemoTitle()) : new JTextField();
 		if(memo != null) {
@@ -197,6 +256,12 @@ public class MemoDetailsJ extends JFrame {
 		                    .addComponent(textPaneMemoContent, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE))
 		                .addGroup(gl_contentPane.createSequentialGroup()
 		                    .addGap(70)
+		                    .addComponent(lblMemoGroup, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE))
+		                .addGroup(gl_contentPane.createSequentialGroup()
+		                    .addGap(70)
+		                    .addComponent(memoGroupComboBox, GroupLayout.PREFERRED_SIZE, 396, GroupLayout.PREFERRED_SIZE))
+		                .addGroup(gl_contentPane.createSequentialGroup()
+		                    .addGap(70)
 		                    .addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
 		                    .addGap(6)
 		                    .addComponent(btnDelete, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
@@ -221,6 +286,10 @@ public class MemoDetailsJ extends JFrame {
 		            .addComponent(lblMemoContent, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 		            .addGap(11)
 		            .addComponent(textPaneMemoContent, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+		            .addGap(11)
+		            .addComponent(lblMemoGroup, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+		            .addGap(6)
+		            .addComponent(memoGroupComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		            .addGap(34)
 		            .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 		                .addComponent(btnSaveMemo, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
@@ -229,23 +298,36 @@ public class MemoDetailsJ extends JFrame {
 		            .addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+
 	}
 	
 	private String setMemoJsonEdit(int memoId, String memoTitle, String memoContent) {
-		String jsonObject = "{"
-                + "\"memoId\": \"" + memoId + "\","
-                + "\"memoTitle\": \"" + memoTitle + "\","
-                + "\"memoContent\": \"" + memoContent + "\""
-                + "}";;
-		
-		return jsonObject;
+	    MemoGroup selectedGroup = (MemoGroup) memoGroupComboBox.getSelectedItem();
+	    String groupPart = selectedGroup != null ? 
+	        "\"memoGroup\": { \"id\": " + selectedGroup.getId() + " }" : 
+	        	"\"memoGroup\": { \"id\": 0 }";
+
+	    String jsonObject = "{"
+	        + "\"memoId\": \"" + memoId + "\","
+	        + "\"memoTitle\": \"" + memoTitle + "\","
+	        + "\"memoContent\": \"" + memoContent + "\","
+	        + groupPart
+	        + "}";
+
+	    return jsonObject;
 	}
 
 	private String setMemoJson(String memoTitle, String memoContent) {
+		MemoGroup selectedGroup = (MemoGroup) memoGroupComboBox.getSelectedItem();
+	    String groupPart = selectedGroup != null ? 
+	        "\"memoGroup\": { \"id\": " + selectedGroup.getId() + " }" : 
+	        	"\"memoGroup\": { \"id\": 0 }";
+	    
 		String jsonObject = "{"
-                + "\"memoTitle\": \"" + memoTitle + "\","
-                + "\"memoContent\": \"" + memoContent + "\""
-                + "}";;
+		        + "\"memoTitle\": \"" + memoTitle + "\","
+		        + "\"memoContent\": \"" + memoContent + "\","
+		        + groupPart
+		        + "}";
 		
 		return jsonObject;
 	}
@@ -254,6 +336,7 @@ public class MemoDetailsJ extends JFrame {
 		textFieldMemoTitle.setEnabled(true);
 		textFieldMemoTitle.setEditable(true);
 	    textPaneMemoContent.setEditable(true);	
+	    memoGroupComboBox.setEnabled(true);
 	}
 
 }

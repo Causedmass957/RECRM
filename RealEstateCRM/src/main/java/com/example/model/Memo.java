@@ -25,7 +25,7 @@ public class Memo {
 	@Id
 	@Column(name="memo_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int memoId;	
+	private Integer memoId;	
 		
 	@Column(name="memo_title", nullable=false)
 	private String memoTitle;
@@ -38,6 +38,11 @@ public class Memo {
 	@JoinColumn(name="user_fk")
 	private User user;
 	
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "group_id")
+	private MemoGroup memoGroup;
+
 	public Memo() {
 		super();
 	}
@@ -49,6 +54,38 @@ public class Memo {
 		this.memoContent = memoContent;
 	}	
 	
+	public Memo(int memoId, String memoTitle, String memoContent, MemoGroup memoGroup) {
+		super();
+		this.memoId = memoId;
+		this.memoTitle = memoTitle;
+		this.memoContent = memoContent;
+		this.memoGroup = memoGroup;
+	}
+
+	public Memo(String memoTitle, String memoContent, MemoGroup memoGroup) {
+		super();
+		this.memoTitle = memoTitle;
+		this.memoContent = memoContent;
+		this.memoGroup = memoGroup;
+	}
+
+	public Memo(String memoTitle, String memoContent, User user, MemoGroup memoGroup) {
+		super();
+		this.memoTitle = memoTitle;
+		this.memoContent = memoContent;
+		this.user = user;
+		this.memoGroup = memoGroup;
+	}
+
+	public Memo(int memoId, String memoTitle, String memoContent, User user, MemoGroup memoGroup) {
+		super();
+		this.memoId = memoId;
+		this.memoTitle = memoTitle;
+		this.memoContent = memoContent;
+		this.user = user;
+		this.memoGroup = memoGroup;
+	}
+
 	public Memo(int memoId, String memoTitle, String memoContent, User user) {
 		super();
 		this.memoId = memoId;
@@ -64,7 +101,7 @@ public class Memo {
 		this.user = user;
 	}
 
-	public int getMemoId() {
+	public Integer getMemoId() {
 		return memoId;
 	}
 
@@ -95,5 +132,16 @@ public class Memo {
 	public void setMemoContent(String memoContent) {
 		this.memoContent = memoContent;
 	}
+	
+	public MemoGroup getMemoGroup() {
+		return memoGroup;
+	}
 
+	public void setMemoGroup(MemoGroup memoGroup) {
+		this.memoGroup = memoGroup;
+	}
+	
+	public String returnTitle() {
+		return this.memoTitle;
+	}
 }
