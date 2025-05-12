@@ -36,8 +36,8 @@ public class UserService {
 		return uRepo.findByEmail(email);
 	}
 	
-	public User getUserById(int userId) {
-		return uRepo.findById(userId);
+	public User getUserById(long id) {
+		return uRepo.findById(id);
 	}
 	
 	public User getUserByUsername(String username) {

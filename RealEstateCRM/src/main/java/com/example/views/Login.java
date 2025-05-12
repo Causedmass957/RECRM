@@ -1,4 +1,4 @@
-package views;
+package com.example.views;
 
 import java.awt.EventQueue;
 

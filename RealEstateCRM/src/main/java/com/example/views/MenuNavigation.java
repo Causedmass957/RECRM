@@ -1,4 +1,4 @@
-package views;
+package com.example.views;
 
 import javax.swing.*;
 import com.example.utils.Session;

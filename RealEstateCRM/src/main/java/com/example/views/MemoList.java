@@ -1,4 +1,4 @@
-package views;
+package com.example.views;
 
 import com.example.model.Memo;
 import com.example.model.MemoGroup;
