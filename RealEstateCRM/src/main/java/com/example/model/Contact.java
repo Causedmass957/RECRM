@@ -22,7 +22,7 @@ public class Contact {
 	@Id
 	@Column(name="contact_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int contactId;
+	private long contactId;
 	
 	@Column(name="name", nullable=false)
 	private String contactName;
@@ -50,7 +50,7 @@ public class Contact {
 		this.user = user;
 	}
 
-	public Contact(int contactId, String contactName, String email, LocalDate dob, String contactPhone, User user) {
+	public Contact(long contactId, String contactName, String email, LocalDate dob, String contactPhone, User user) {
 		super();
 		this.contactId = contactId;
 		this.contactName = contactName;
@@ -68,7 +68,7 @@ public class Contact {
 		this.contactPhone = contactPhone;
 	}
 
-	public Contact(int contactId, String contactName, String email, LocalDate dob, String contactPhone) {
+	public Contact(long contactId, String contactName, String email, LocalDate dob, String contactPhone) {
 		super();
 		this.contactId = contactId;
 		this.contactName = contactName;
@@ -113,11 +113,11 @@ public class Contact {
 		this.contactPhone = contactPhone;
 	}
 
-	public int getContactId() {
+	public long getContactId() {
 		return contactId;
 	}
 
-	public void setContactId(int contactId) {
+	public void setContactId(long contactId) {
 		this.contactId = contactId;
 	}	
 
