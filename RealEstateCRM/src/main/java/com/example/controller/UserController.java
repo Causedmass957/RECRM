@@ -91,6 +91,7 @@ public class UserController {
 
 	        Map<String, String> response = new HashMap<>();
 	        response.put("token", jwt);
+	        response.put("role",authentication.getAuthorities().toString());
 
 	        return ResponseEntity.ok(response);
 	    } catch (AuthenticationException ex) {

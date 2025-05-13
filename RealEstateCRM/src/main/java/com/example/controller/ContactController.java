@@ -5,7 +5,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +29,8 @@ import com.example.service.UserService;
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value="/contact")
+@EnableWebSecurity
+@EnableMethodSecurity
 public class ContactController {
 	
 	ContactService cServe;
@@ -51,17 +58,29 @@ public class ContactController {
 	}
 	
 	//get single contact by unique id
-	@GetMapping(value="/{id}")
-	public ResponseEntity<Contact> getContact(@PathVariable(name="id") int contactId) {
-		return ResponseEntity.status(201).body(cServe.getContactById(contactId));
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getContactById(@PathVariable long id, Authentication authentication) {
+	    String username = authentication.getName();
+	    Optional<Contact> optionalContact = Optional.ofNullable(cServe.getContactById(id));
+
+	    if (optionalContact.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+
+	    Contact contact = optionalContact.get();
+	    if (!contact.getUser().getUsername().equals(username)) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access denied");
+	    }
+
+	    return ResponseEntity.ok(contact);
 	}
 	
 	//get all contacts joined by user
-	@GetMapping(value="/all/{username}")
-	public ResponseEntity<List<Contact>> getAllContacts(@PathVariable(name="username") String username) {
-		List<Contact> contactList = cServe.getAllContacts(uServe.getUserByUsername(username));
-		return ResponseEntity.status(201).body(contactList);
-		
+	@GetMapping
+	public ResponseEntity<List<Contact>> getContactsForUser(Authentication authentication) {
+	    String username = authentication.getName();
+	    List<Contact> contacts = cServe.getContactsByUsername(username);
+	    return ResponseEntity.ok(contacts);
 	}
 	
 	//add new contact to specified user via username
@@ -71,9 +90,10 @@ public class ContactController {
     "contactPhone": "209-321-6122",
     "contactEmail": "realtoroneal@gmail.com"
     */
-	@PostMapping(value="/{username}")
-	public ResponseEntity<String> addNewContact(@RequestBody Contact contact, @PathVariable(name="username") String username) {
+	@PostMapping(value="/new")
+	public ResponseEntity<String> addNewContact(@RequestBody Contact contact, Authentication authentication) {
 		//System.out.println(contact);
+		String username = authentication.getName();
 		User contactOwner = uServe.getUserByUsername(username);
 		Optional<Contact> contactOpt = Optional.ofNullable(contact);
 		contactOpt.get().setUser(contactOwner);
@@ -93,8 +113,9 @@ public class ContactController {
     "contactEmail": "realtoroneal@gmail.com",
     "userName": //user associated with contact
     */
-	@PutMapping(value="/edit/contact/{username}/{id}")
-	public ResponseEntity<String> editContact(@PathVariable(name="id") int id, @RequestBody Contact contact, @PathVariable(name="username") String username) {
+	@PutMapping(value="/edit/{id}")
+	public ResponseEntity<String> editContact(@PathVariable(name="id") long id, @RequestBody Contact contact, Authentication authentication) {
+		String username = authentication.getName();
 		Optional<Contact> contactOpt = Optional.ofNullable(cServe.getContactById(id));
 		//System.out.println(contactOpt.get());
 		if(contactOpt.isPresent()) {
@@ -106,12 +127,20 @@ public class ContactController {
 	}
 	
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<String> deleteContact(@PathVariable(name="id") int contactId) {
+	public ResponseEntity<String> deleteContact(@PathVariable(name="id") long contactId) {
 		Contact contactDel = cServe.getContactById(contactId);
 		//System.out.println(contactDel.toString());
 		cServe.removeContact(contactDel);
 		System.out.println("contact deleted");
 		return ResponseEntity.status(201).body("Success");
 	}
+	
+	@GetMapping("/homepage")
+	public ResponseEntity<List<Contact>> getUpcomingBirthdays(Authentication authentication) {
+	    String username = authentication.getName();
+	    List<Contact> upcoming = cServe.getUpcomingBirthdays(username);
+	    return ResponseEntity.ok(upcoming);
+	}
+
 
 }

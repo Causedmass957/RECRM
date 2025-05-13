@@ -1,12 +1,10 @@
 package com.example.service;
 
-
 import com.example.repository.UserRepo;
 import com.example.model.User;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-	private final UserRepo userRepo;
+    private final UserRepo userRepo;
 
     @Autowired
     public CustomUserDetailsService(UserRepo userRepo) {
@@ -28,10 +26,12 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
+        // Assuming you are setting the user's role correctly
         return org.springframework.security.core.userdetails.User
-            .withUsername(user.getUsername())
-            .password(user.getPassword())
-            .roles(user.getRole()) // or authorities
-            .build();
+                .withUsername(user.getUsername())
+                .password(user.getPassword())
+                .authorities(user.getRole())  // User's role, such as "USER" or "ADMIN"
+                .build();
     }
+
 }

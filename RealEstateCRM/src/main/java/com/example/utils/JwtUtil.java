@@ -20,10 +20,10 @@ public class JwtUtil {
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     public String generateToken(Authentication authentication) {
-        String username = authentication.getName(); // Get the username (or email, if you prefer)
+        String username = authentication.getName(); 
         
         return Jwts.builder()
-                .setSubject(username) // The subject of the JWT, typically the username or email
+                .setSubject(username) 
                 .setIssuedAt(new Date()) // The time the token was issued
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day expiration
                 .signWith(key, SignatureAlgorithm.HS256) // Sign the token with the secret key

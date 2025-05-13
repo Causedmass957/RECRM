@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.model.Contact;
 import com.example.model.User;
 
-public interface ContactRepo extends JpaRepository<Contact, Integer>{
+public interface ContactRepo extends JpaRepository<Contact, Long>{
 	
-	public Contact findById(int contactId);
+	public Contact findById(long id);
 	public Contact findByEmail(String email);
 	public List<Contact> findByUser(User user);
 
