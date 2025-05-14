@@ -1,35 +1,38 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  private baseUrl = 'http://localhost:9015/user';
+  private readonly API_URL = 'http://localhost:9015/user';
 
   constructor(private http: HttpClient) {}
 
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, credentials, {
-      responseType: 'text', // assuming token is returned as plain text
-    });
+    return this.http.post(`${this.API_URL}/login`, credentials).pipe(
+      tap((response: any) => {
+        localStorage.setItem('jwt', response.token);
+        localStorage.setItem('role', response.role);
+      })
+    );
   }
 
   register(user: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, user);
-  }
-
-  storeToken(token: string): void {
-    localStorage.setItem('jwt', token);
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('jwt');
+    return this.http.post(`${this.API_URL}/register`, user);
   }
 
   logout(): void {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('role');
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('jwt');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('jwt');
   }
 }

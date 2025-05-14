@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,8 @@ import com.example.service.UserService;
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value="/memogroup")
+@EnableWebSecurity
+@EnableMethodSecurity
 public class MemoGroupController {
 	
 	MemoGroupService mgServe;
@@ -46,17 +51,19 @@ public class MemoGroupController {
 		return ResponseEntity.status(201).body("Success");		
 	}
 	
-	@PostMapping(value="/blank/{username}")
-	public ResponseEntity<String> addEmptyMemoGroup(@RequestBody MemoGroup memoGroup, @PathVariable String username) {
+	@PostMapping(value="/blank")
+	public ResponseEntity<String> addEmptyMemoGroup(@RequestBody MemoGroup memoGroup, Authentication authentication) {
+		String username = authentication.getName();
 		User userHold = uServe.getUserByUsername(username);
 		memoGroup.setUser(userHold);
 		mgServe.saveGroup(memoGroup);
 		return ResponseEntity.status(201).body("Sussess");		
 	}
 	
-	@GetMapping("/{username}")
-    public ResponseEntity<List<MemoGroup>> getGroupsByUser(@PathVariable String username) {
+	@GetMapping
+    public ResponseEntity<List<MemoGroup>> getGroupsByUser(Authentication authentication) {
         // You’ll likely want to fetch the user by userId from UserService/UserRepository
+		String username = authentication.getName();
 		User user = uServe.getUserByUsername(username);
         return ResponseEntity.ok(mgServe.getAllGroupsByUser(user));
     }

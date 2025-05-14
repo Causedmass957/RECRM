@@ -9,8 +9,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [AuthService] // 👈 OR provide it in app.config.ts globally
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   username: string = '';
@@ -27,8 +26,7 @@ export class LoginComponent {
 
     this.authService.login({ username: this.username, password: this.password })
       .subscribe({
-        next: (token: string) => {
-          this.authService.storeToken(token);
+        next: () => {
           this.router.navigate(['/home']);
         },
         error: () => {

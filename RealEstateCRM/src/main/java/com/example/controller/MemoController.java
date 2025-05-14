@@ -7,6 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,8 @@ import com.example.service.UserService;
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping(value="/memo")
+@EnableWebSecurity
+@EnableMethodSecurity
 public class MemoController {
 	
 	UserService uServe;
@@ -58,14 +63,16 @@ public class MemoController {
 	}
 	
 	//get all contacts joined by user
-	@GetMapping(value="/all/{username}")
-	public ResponseEntity<List<Memo>> getAllMemos(@PathVariable(name="username") String username) {
+	@GetMapping(value="/all/")
+	public ResponseEntity<List<Memo>> getAllMemos(Authentication authentication) {
+		String username = authentication.getName();
 		List<Memo> memoList = mServe.getMemosByUserUserName(uServe.getUserByUsername(username));
 		return ResponseEntity.status(201).body(memoList);		
 	}
 	
-	@GetMapping(value="/nogroup/{username}")
-	public ResponseEntity<List<Memo>> getAllMemosNoGroup(@PathVariable(name="username") String username) {
+	@GetMapping(value="/nogroup")
+	public ResponseEntity<List<Memo>> getAllMemosNoGroup(Authentication authentication) {
+		String username = authentication.getName();
 		List<Memo> memoList = mServe.getMemosByUserUserName(uServe.getUserByUsername(username));
 		List<Memo> newList = new ArrayList();
 		for(Memo m : memoList) {
@@ -89,9 +96,10 @@ public class MemoController {
 	    "memoTitle": "Christina O'Neal",
 	    "memoContent": "1968-11-09"
 	    */
-	@PostMapping(value="/{username}")
-	public ResponseEntity<String> addNewMemo(@RequestBody Memo memo, @PathVariable(name="username") String username) {
+	@PostMapping(value="/new")
+	public ResponseEntity<String> addNewMemo(@RequestBody Memo memo, Authentication authentication) {
 		//System.out.println(memo);
+		String username = authentication.getName();
 		User memoOwner = uServe.getUserByUsername(username);
 		Optional<Memo> memoOpt = Optional.ofNullable(memo);
 		memoOpt.get().setUser(memoOwner);
@@ -102,10 +110,10 @@ public class MemoController {
 		return ResponseEntity.status(202).body("Success");
 	}
 	
-	@PutMapping(value = "/edit/memo/{username}/{id}")
+	@PutMapping(value = "/edit/memo/{id}")
 	public ResponseEntity<String> editMemo(@PathVariable(name = "id") int memoId,
 	                                       @RequestBody Memo memo,
-	                                       @PathVariable(name = "username") String username) {
+	                                       Authentication authentication) {
 	    // Fetch the existing memo
 	    Memo existingMemo = mServe.getMemoById(memoId);
 	    if (existingMemo == null) {
@@ -113,6 +121,7 @@ public class MemoController {
 	    }
 
 	    // Fetch the user based on the username
+	    String username = authentication.getName();
 	    User user = uServe.getUserByUsername(username);
 	    if (user == null) {
 	        return ResponseEntity.badRequest().body("User not found");
