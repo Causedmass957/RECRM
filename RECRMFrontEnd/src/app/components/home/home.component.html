@@ -1,1 +1,22 @@
-<p>home works!</p>
+<table>
+    <thead>
+        <tr>
+            <th> Name</th>
+            <th>Phone number</th>
+            <th>Date of birth</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of upcomingBdays">
+            <td>
+                {{item.contactName}}
+            </td>
+            <td>
+                {{item.contactPhone}}
+            </td>
+            <td>
+                {{item.contactDOB}}
+            </td>
+        </tr>
+    </tbody>
+</table>
